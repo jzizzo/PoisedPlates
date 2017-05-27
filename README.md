@@ -4,14 +4,14 @@ The project description
 
 ## Team
 
-- teamMember
-- teamMember
-- teamMember
-- teamMember
+- Joe Zizzo
+- Steve Kim
+- Jim Lee
+- Doug Cox
 
 ## Roadmap
 
-View the project roadmap [here](LINK_TO_DOC)
+View the project roadmap [here](https://docs.google.com/document/d/1LtN7WOn38PllGrtU19atwsdbGhHFtnqknJsipVM14V8/edit)
 
 ## Contributing
 
@@ -56,6 +56,8 @@ yarn global add grunt-cli knex eslint
 
 ## Database Initialization
 
+Start your postgres server: `brew services start postgres`
+
 IMPORTANT: ensure `postgres` is running before performing these steps.
 
 ### Database Creation:
@@ -91,3 +93,5 @@ To run server: `yarn run start`
 To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
+
+Direct your browser to `http://127.0.0.1:3000/` to connect to the app.
