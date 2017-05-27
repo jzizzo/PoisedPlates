@@ -22,7 +22,11 @@
   },
 
   "passport": {
-    "Google": {},
+    "Google": {
+      "clientID": "393207620328-kdv1d8dgdcfhi4t14b6illvug0f6qvm1.apps.googleusercontent.com",
+      "clientSecret": "xxRL_mxct5US1Uiw2A_iM6S2",
+      "callbackURL": "http://127.0.0.1:3000/auth/google/callback"
+    },
     "Facebook": {},
     "Twitter": {}
   }
