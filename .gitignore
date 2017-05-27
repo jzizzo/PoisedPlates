@@ -3,7 +3,7 @@
 .DS_Store
 
 # Config vars
-
+config/*.json
 
 # Webpack bundle
 public/dist/bundle.js
