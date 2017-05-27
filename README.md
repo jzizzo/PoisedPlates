@@ -62,7 +62,11 @@ IMPORTANT: ensure `postgres` is running before performing these steps.
 
 Use grunt to create a new database for your development and test environments:
 
-Development envronment: `grunt pgcreatedb:default`
+Development environment: `grunt pgcreatedb:default`
+
+*SK comment:
+If you get an error about not having a local grunt, then try running
+'yarn add grunt-cli knex eslint'. Then try `grunt pgcreatedb:default` again*
 
 Other environments, specify like so: `NODE_ENV=test grunt pgcreatedb:default`
 
@@ -72,7 +76,7 @@ In terminal, from the root directory:
 
 `knex migrate:latest --env NODE_ENV`
 
-`knex migrate:rollback --env NODE_ENV`
+`knex migrate:rollback --env NODE_ENV` *SK comment: don't run this command*
 
 `knex seed:run --env NODE_ENV`
 
@@ -87,5 +91,3 @@ To run server: `yarn run start`
 To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
-
-
