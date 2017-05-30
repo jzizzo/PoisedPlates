@@ -119,31 +119,30 @@ passport.use('google', new GoogleStrategy({
   (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('google', profile, done))
 );
 
-// passport.use('facebook', new FacebookStrategy({
-//   clientID: config.Facebook.clientID,
-//   clientSecret: config.Facebook.clientSecret,
-//   callbackURL: config.Facebook.callbackURL,
-//   profileFields: ['id', 'emails', 'name']
-// },
-//   (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('facebook', profile, done))
-// );
-//
-// // REQUIRES PERMISSIONS FROM TWITTER TO OBTAIN USER EMAIL ADDRESSES
-// passport.use('twitter', new TwitterStrategy({
-//   consumerKey: config.Twitter.consumerKey,
-//   consumerSecret: config.Twitter.consumerSecret,
-//   callbackURL: config.Twitter.callbackURL,
-//   userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true'
-// },
-//   (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('twitter', profile, done))
-// );
+passport.use('facebook', new FacebookStrategy({
+  clientID: config.Facebook.clientID,
+  clientSecret: config.Facebook.clientSecret,
+  callbackURL: config.Facebook.callbackURL,
+  profileFields: ['id', 'emails', 'name']
+},
+  (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('facebook', profile, done))
+);
+
+// REQUIRES PERMISSIONS FROM TWITTER TO OBTAIN USER EMAIL ADDRESSES
+passport.use('twitter', new TwitterStrategy({
+  consumerKey: config.Twitter.consumerKey,
+  consumerSecret: config.Twitter.consumerSecret,
+  callbackURL: config.Twitter.callbackURL,
+  userProfileURL: 'https://api.twitter.com/1.1/account/verify_credentials.json?include_email=true'
+},
+  (accessToken, refreshToken, profile, done) => getOrCreateOAuthProfile('twitter', profile, done))
+);
 
 const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
   return models.Auth.where({ type, oauth_id: oauthProfile.id }).fetch({
     withRelated: ['profile']
   })
     .then(oauthAccount => {
-
       if (oauthAccount) {
         throw oauthAccount;
       }
@@ -155,13 +154,24 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
       return models.Profile.where({ email: oauthProfile.emails[0].value }).fetch();
     })
     .then(profile => {
+      let profileInfo;
 
-      let profileInfo = {
-        first: oauthProfile.name.givenName,
-        last: oauthProfile.name.familyName,
-        display: oauthProfile.displayName || `${oauthProfile.name.givenName} ${oauthProfile.name.familyName}`,
-        email: oauthProfile.emails[0].value
-      };
+      if (type === 'google' || type === 'facebook') {
+        profileInfo = {
+          first: oauthProfile.name.givenName,
+          last: oauthProfile.name.familyName,
+          display: oauthProfile.displayName || `${oauthProfile.name.givenName} ${oauthProfile.name.familyName}`,
+          email: oauthProfile.emails[0].value
+        };
+      }
+
+      if (type === 'twitter') {
+        profileInfo = {
+          username: oauthProfile.username,
+          display: oauthProfile.displayName,
+          email: oauthProfile.emails[0].value
+        };
+      }
 
       if (profile) {
         //update profile with info from oauth
@@ -191,7 +201,7 @@ const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
         done(null, profile.serialize());
       }
     })
-    .catch(() => {
+    .catch((error) => {
       // TODO: This is not working because redirect to login uses req.flash('loginMessage')
       // and there is no access to req here
       done(null, null, {
