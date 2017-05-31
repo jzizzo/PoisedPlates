@@ -94,4 +94,4 @@ To run tests: `yarn run test`
 
 To run your redis server for the session store `redis-server`
 
-Direct your browser to `http://127.0.0.1:3000/` to connect to the app.
+Direct your browser to `127.0.0.1:3000/` to connect to the app.
