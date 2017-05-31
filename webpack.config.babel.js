@@ -1,5 +1,6 @@
 import webpack from 'webpack';
 import path from 'path';
+import WorkboxBuildWebpackPlugin from 'workbox-webpack-plugin';
 
 const config = {
   entry: './client/src/index',
@@ -21,7 +22,15 @@ const config = {
         ]
       }
     ]
-  }
+  },
+  plugins: [
+    new WorkboxBuildWebpackPlugin({
+      globDirectory: 'public',
+      globPatterns: ['**\/*.{html,js,css}'],
+      swSrc: './public/service-worker.js',
+      swDest: './public/dist/service-worker.js',
+    })
+  ]
 };
 
 export default config;
