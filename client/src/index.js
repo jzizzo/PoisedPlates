@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 import reducers from './reducers';
 import Nav from './components/nav';
@@ -26,14 +27,16 @@ ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <div>
       <BrowserRouter>
-        <div>
-          <Nav />
-          <Switch>
-            <Route path="/post/new" component={SubmitProduct} />
-            <Route path="/product/:id" component={ProductPage} />
-            <Route path="/" component={BrowseProducts} />
-          </Switch>
-        </div>
+        <MuiThemeProvider>
+          <div>
+            <Nav />
+            <Switch>
+              <Route path="/post/new" component={SubmitProduct} />
+              <Route path="/product/:id" component={ProductPage} />
+              <Route path="/" component={BrowseProducts} />
+            </Switch>
+          </div>
+        </MuiThemeProvider>
       </BrowserRouter>
     </div>
   </Provider>

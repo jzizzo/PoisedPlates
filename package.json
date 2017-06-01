@@ -26,6 +26,7 @@
     "grunt-cli": "^1.2.0",
     "grunt-pg": "https://github.com/watsoncj/grunt-pg.git",
     "knex": "^0.13.0",
+    "material-ui": "^0.18.1",
     "morgan": "^1.8.1",
     "passport": "^0.3.2",
     "passport-facebook": "^2.1.1",
@@ -37,8 +38,11 @@
     "react-dom": "^15.4.2",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1",
     "redis": "^2.7.1",
     "redux": "^3.6.0",
+    "redux-form": "^6.7.0",
+    "redux-form-material-ui": "^4.2.0",
     "redux-promise": "^0.5.3"
   },
   "devDependencies": {
