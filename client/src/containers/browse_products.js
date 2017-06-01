@@ -39,7 +39,9 @@ class BrowseProducts extends Component {
   renderPosts() {
     return _.map(this.data, listing => {
       return (
-        <img key={listing.id} src={listing['img-url']} height={250} />
+        <Link to={`/product/${listing.id}`} key={listing.id}>
+          <img key={listing.id} src={listing['img-url']} height={250} />
+        </Link>
       )
     });
   }

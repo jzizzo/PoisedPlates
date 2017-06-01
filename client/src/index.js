@@ -21,16 +21,19 @@ if ('serviceWorker' in navigator) {
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+
 ReactDOM.render(
   <Provider store={createStoreWithMiddleware(reducers)}>
     <div>
-      <Nav />
       <BrowserRouter>
-        <Switch>
-          <Route path="/post/new" component={SubmitProduct} />
-          <Route path="/product/:id" component={ProductPage} />
-          <Route path="/" component={BrowseProducts} />
-        </Switch>
+        <div>
+          <Nav />
+          <Switch>
+            <Route path="/post/new" component={SubmitProduct} />
+            <Route path="/product/:id" component={ProductPage} />
+            <Route path="/" component={BrowseProducts} />
+          </Switch>
+        </div>
       </BrowserRouter>
     </div>
   </Provider>
