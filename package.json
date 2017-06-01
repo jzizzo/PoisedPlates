@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon server",
-    "test": "NODE_ENV=test grunt test",
+    "mocha": "NODE_ENV=test grunt test",
     "build": "webpack --watch",
-    "jest": "jest --coverage"
+    "test": "jest --coverage"
   },
   "author": "Hack Reactor",
   "license": "MIT",
