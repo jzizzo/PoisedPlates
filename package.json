@@ -4,7 +4,8 @@
   "scripts": {
     "start": "nodemon server",
     "test": "NODE_ENV=test grunt test",
-    "build": "webpack --watch"
+    "build": "webpack --watch",
+    "jest": "jest --coverage"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -46,6 +47,7 @@
     "redux-promise": "^0.5.3"
   },
   "devDependencies": {
+    "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
     "babel-preset-latest": "^6.24.0",
@@ -57,6 +59,7 @@
     "jest": "^20.0.4",
     "mocha": "^3.2.0",
     "node-mocks-http": "^1.6.1",
+    "react-test-renderer": "^15.5.4",
     "supertest": "^3.0.0",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2",
