@@ -1,9 +1,13 @@
 import React, { Component } from 'react';
+import MyForm from '../components/form';
 
 export default class SubmitProduct extends Component {
   render() {
     return (
-      <h1>Welcome to the Submit Product Page!</h1>
+      <div>
+        <h1>Welcome to the Submit Product Page!</h1>
+        <MyForm />
+      </div>
     )
   }
 };
