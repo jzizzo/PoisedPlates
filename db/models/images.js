@@ -8,3 +8,4 @@ const Image = db.Model.extend({
 });
 
 module.exports = db.model('Image', Image);
+

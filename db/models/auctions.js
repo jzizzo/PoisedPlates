@@ -8,3 +8,4 @@ const Auction = db.Model.extend({
 });
 
 module.exports = db.model('Auctions', Auction);
+
