@@ -28,12 +28,14 @@ ReactDOM.render(
     <div>
       <BrowserRouter>
         <MuiThemeProvider>
+          <div>
             <Nav />
             <Switch>
               <Route path="/post/new" component={SubmitProduct} />
               <Route path="/product/:id" component={ProductPage} />
               <Route path="/" component={BrowseProducts} />
             </Switch>
+          </div>
         </MuiThemeProvider>
       </BrowserRouter>
     </div>
