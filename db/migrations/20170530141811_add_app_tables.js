@@ -31,7 +31,7 @@ exports.up = function(knex, Promise) {
       table.string('name', 100).nullable();
       table.integer('parent_id', 50).nullable();
     }),
-    knex.schema.createTableIfNotExists('profiles_bids', function(table) {
+    knex.schema.createTableIfNotExists('profile_bids', function(table) {
       table.increments('id').unsigned().primary();
       table.integer('profile_id').references('profiles.id').onDelete('CASCADE');
       table.integer('auction_id').references('auctions.id').onDelete('CASCADE');
@@ -44,14 +44,14 @@ exports.up = function(knex, Promise) {
 
 exports.down = function(knex, Promise) {
   return Promise.all([
-    knex.schema.dropTable('locations'),
+    knex.raw('DROP TABLE LOCATIONS CASCADE'),
     knex.schema.table('profiles', function (table) {
       table.dropColumn('username');
       table.dropColumn('location_id');
     }),
     knex.schema.dropTable('images'),
-    knex.schema.dropTable('profiles_bids'),
-    knex.schema.dropTable('auctions'),
-    knex.schema.dropTable('categories')
+    knex.schema.dropTable('profile_bids'),
+    knex.raw('DROP TABLE CATEGORIES CASCADE'),
+    knex.schema.dropTable('auctions')
   ]);
 };
