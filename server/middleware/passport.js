@@ -34,10 +34,12 @@ passport.use('local-signup', new LocalStrategy({
 },
   (req, email, password, done) => {
     // check to see if there is a local account with this email address
-    return models.Profile.where({ email }).fetch({
-      withRelated: [{
-        auths: query => query.where({ type: 'local' })
-      }]
+    return models.Profile
+      .where({ email })
+      .fetch({
+        withRelated: [{
+          auths: query => query.where({ type: 'local' })
+        }]
     })
       .then(profile => {
         // create a new profile if a profile does not exist
@@ -139,9 +141,11 @@ passport.use('twitter', new TwitterStrategy({
 );
 
 const getOrCreateOAuthProfile = (type, oauthProfile, done) => {
-  return models.Auth.where({ type, oauth_id: oauthProfile.id }).fetch({
-    withRelated: ['profile']
-  })
+  return models.Auth
+      .where({ type, oauth_id: oauthProfile.id })
+      .fetch({
+          withRelated: ['profile']
+      })
     .then(oauthAccount => {
       if (oauthAccount) {
         throw oauthAccount;
