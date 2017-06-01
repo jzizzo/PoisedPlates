@@ -26,7 +26,7 @@ const config = {
   plugins: [
     new WorkboxBuildWebpackPlugin({
       globDirectory: 'public',
-      globPatterns: ['**\/*.{html,js,css}'],
+      globPatterns: ['**\/*.{html,js,json,css,png,ico}'],
       swSrc: './public/service-worker.js',
       swDest: './public/dist/service-worker.js',
     })

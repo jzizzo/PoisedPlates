@@ -6,7 +6,7 @@
 config/*.json
 
 # Webpack bundle
-public/dist/bundle.js
+public/dist/
 
 # Logs
 logs
