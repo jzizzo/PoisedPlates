@@ -37,7 +37,7 @@ ReactDOM.render(
             <Nav />
             <Switch>
               <Route path="/post/new" component={SubmitProduct} />
-              <Route path="/product/:id" component={ProductPage} />
+              <Route path="/auction/:id" component={ProductPage} />
               <Route path="/" component={BrowseProducts} />
             </Switch>
           </div>
