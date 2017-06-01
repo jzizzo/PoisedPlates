@@ -11,6 +11,14 @@ import BrowseProducts from './containers/browse_products';
 import ProductPage from './containers/product_page';
 import SubmitProduct from './containers/submit_product';
 
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('./dist/service-worker.js')
+  .then(registration => console.log('Service worker registered.'))
+  .catch(error => console.error('Error during service worker registration:', error));
+} else {
+  console.log('Service worker is not supported.');
+}
+
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
 ReactDOM.render(
