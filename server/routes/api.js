@@ -45,7 +45,10 @@ router.route('/auction/:id')
 
   router.route('/categories')
     .get((req,res) => {
-      return models.Category.collection().fetch()
+      return models.Category.collection()
+      .fetch({
+        columns: ['id', 'name']
+      })
       .then(collection => {
         res.send(collection);
       });
@@ -78,8 +81,7 @@ router.route('/auction/:id')
   //middleware.auth.verify,
   // put into post before (req, res)
     .post( (req, res) => {
-      console.log('auction>post>loc: ', req.query)
-        return models.Location.where({city: req.query.city, state: req.query.state})
+        return models.Location.where({city: req.body.city, state: req.body.state})
         .fetch({
           columns: ['id']
         })
@@ -87,10 +89,10 @@ router.route('/auction/:id')
           if (id) {
             return id;
           } else { //insert city and state into db
-            models.Location
+            return models.Location
               .forge({
-                city: req.query.city,
-                state: req.query.state
+                city: req.body.city,
+                state: req.body.state
               })
               .save()
               .then(data => {
@@ -98,6 +100,38 @@ router.route('/auction/:id')
                 return data.id;
               });
           }
+        })
+        .then( locationId => {
+          return models.Category.where({name: req.body.category})
+            .fetch({
+              columns: ['id']
+            })
+            .then( categoryId => {
+              return models.Auction
+                .forge({
+                  // profile_id is dummy as middleware.auth is commented out
+                  profile_id: 4,
+                  category_id: categoryId.id,
+                  location_id: locationId.id,
+                  end_time: req.body.end_time || new Date() ,
+                  title: req.body.title,
+                  description: req.body.description
+                })
+                .save()
+                .then( newAuction => {
+                  return models.Image 
+                    .forge({
+                      auction_id: newAuction.id,
+                      url: req.body.url
+                    })
+                    .save()
+                    .then( insertImage => {
+                      res.redirect(202, '/');
+                    })
+                })
+            })
+        }).catch( reason => {
+          console.log(`Handle rejected promise (${reason}) here.`);
         })
     });
   
