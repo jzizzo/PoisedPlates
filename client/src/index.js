@@ -5,6 +5,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducers from './reducers';
 import Nav from './components/nav';
@@ -22,9 +23,13 @@ if ('serviceWorker' in navigator) {
 
 const createStoreWithMiddleware = applyMiddleware(promise)(createStore);
 
+const store = createStoreWithMiddleware(reducers,
+  typeof window !== 'undefined' && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+  );
+
 
 ReactDOM.render(
-  <Provider store={createStoreWithMiddleware(reducers)}>
+  <Provider store={store}>
     <div>
       <BrowserRouter>
         <MuiThemeProvider>

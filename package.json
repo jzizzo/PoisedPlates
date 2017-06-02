@@ -3,8 +3,9 @@
   "version": "1.0.0",
   "scripts": {
     "start": "nodemon server",
-    "test": "NODE_ENV=test grunt test",
-    "build": "webpack --watch"
+    "mocha": "NODE_ENV=test grunt test",
+    "build": "webpack --watch",
+    "test": "jest --coverage"
   },
   "author": "Hack Reactor",
   "license": "MIT",
@@ -41,11 +42,13 @@
     "react-tap-event-plugin": "^2.0.1",
     "redis": "^2.7.1",
     "redux": "^3.6.0",
+    "redux-devtools-extension": "^2.13.2",
     "redux-form": "^6.7.0",
     "redux-form-material-ui": "^4.2.0",
     "redux-promise": "^0.5.3"
   },
   "devDependencies": {
+    "babel-jest": "^20.0.3",
     "babel-loader": "^7.0.0",
     "babel-plugin-transform-es2015-modules-commonjs": "^6.24.0",
     "babel-preset-latest": "^6.24.0",
@@ -54,12 +57,14 @@
     "grunt": "~0.4.5",
     "grunt-eslint": "^19.0.0",
     "grunt-mocha-test": "^0.13.2",
+    "jest": "^20.0.4",
     "mocha": "^3.2.0",
     "node-mocks-http": "^1.6.1",
     "react-redux": "^5.0.5",
     "react-router-dom": "^4.1.1",
     "redux": "^3.6.0",
     "redux-promise": "^0.5.3",
+    "react-test-renderer": "^15.5.4",
     "supertest": "^3.0.0",
     "webpack": "^2.3.2",
     "webpack-dev-server": "^2.4.2",
