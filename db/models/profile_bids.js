@@ -1,7 +1,7 @@
 const db = require('../');
 
 const ProfileBids = db.Model.extend({
-  tableName: 'profiles_bids',
+  tableName: 'profile_bids',
   auctions: function() {
     return this.belongsTo('Auctions');
   },
