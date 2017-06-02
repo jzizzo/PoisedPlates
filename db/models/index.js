@@ -5,3 +5,4 @@ module.exports.Category = require('./categories');
 module.exports.Auction = require('./auctions');
 module.exports.Location = require('./locations');
 module.exports.ProfileBid = require('./profile_bids');
+

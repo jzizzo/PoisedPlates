@@ -5,10 +5,10 @@ exports.seed = function(knex, Promise) {
     .then(function () {
       // Inserts seed entries
       return knex('locations').insert([
-        {id: 1, city: 'San Francisco', state: 'CA'},
-        {id: 2, city: 'San Diego', state: 'CA'},
-        {id: 3, city: 'New York', state: 'NY'},
-        {id: 4, city: 'Chicago', state: 'IL'}
+        {city: 'San Francisco', state: 'CA'},
+        {city: 'San Diego', state: 'CA'},
+        {city: 'New York', state: 'NY'},
+        {city: 'Chicago', state: 'IL'}
       ]);
     });
 };
