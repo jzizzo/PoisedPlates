@@ -3,7 +3,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 
-export default class ProductPage extends Component {
+export default class AuctionPage extends Component {
   render() {
     return (
       <MuiThemeProvider>

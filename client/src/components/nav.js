@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton';
+import FlatButton from 'material-ui/FlatButton';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
-const style = {
-  margin: 12,
+const styles = {
+  buttons: {
+    marginTop: 5,
+    color: '#FFF',
+  }
 };
 
 export default class Nav extends Component {
@@ -15,15 +18,17 @@ export default class Nav extends Component {
     return (
       <AppBar
         title="Toss.it"
-        iconClassNameRight="muidocs-icon-navigation-expand-more"
-        >
-        <Link to="/">
-          <RaisedButton label="Home" style={style} />
-        </Link>
-        <Link to="/post/new">
-          <RaisedButton label="Post your stuff here" style={style} />
-        </Link>
-      </AppBar>
+        iconElementRight={
+          <div style={styles.div}>
+            <Link to="/">
+              <FlatButton label="Home" style={styles.buttons}/>
+            </Link>
+            <Link to="/auction/new">
+              <FlatButton label="Post" style={styles.buttons}/>
+            </Link>
+          </div>
+        }
+      />
     );
   }
 }

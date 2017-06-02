@@ -24,7 +24,7 @@ const email = value =>
     : undefined);
 const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined);
 
-class Form extends Component {
+class AuctionForm extends Component {
   componentDidMount() {
     this.refs.name // the Field
       .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
@@ -180,11 +180,11 @@ class Form extends Component {
 
 const selector = formValueSelector('example');
 
-Form = connect(state => ({
+AuctionForm = connect(state => ({
   numPizzas: selector(state, 'pizzas'),
-}))(Form);
+}))(AuctionForm);
 
-Form = reduxForm({
+AuctionForm = reduxForm({
   form: 'example',
   initialValues: {
     delivery: 'delivery',
@@ -192,6 +192,6 @@ Form = reduxForm({
     cheese: 'Cheddar',
     pizzas: 1,
   },
-})(Form);
+})(AuctionForm);
 
-export default Form;
+export default AuctionForm;

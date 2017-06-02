@@ -8,10 +8,10 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducers from './reducers';
-import Nav from './components/nav';
-import BrowseProducts from './containers/browse_products';
-import ProductPage from './containers/product_page';
-import SubmitProduct from './containers/submit_product';
+import Nav from './components/Nav';
+import BrowseAuctions from './containers/BrowseAuctions';
+import AuctionPage from './containers/AuctionPage';
+import SubmitAuction from './containers/SubmitAuction';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./dist/service-worker.js')
@@ -36,9 +36,9 @@ ReactDOM.render(
           <div>
             <Nav />
             <Switch>
-              <Route path="/post/new" component={SubmitProduct} />
-              <Route path="/product/:id" component={ProductPage} />
-              <Route path="/" component={BrowseProducts} />
+              <Route path="/auction/new" component={SubmitAuction} />
+              <Route path="/auction/:id" component={AuctionPage} />
+              <Route path="/" component={BrowseAuctions} />
             </Switch>
           </div>
         </MuiThemeProvider>
