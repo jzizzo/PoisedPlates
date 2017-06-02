@@ -1,12 +1,16 @@
-import webpack from 'webpack';
-import path from 'path';
-import WorkboxBuildWebpackPlugin from 'workbox-webpack-plugin';
+var webpack = require('webpack');
+var path = require('path');
+var WorkboxBuildWebpackPlugin = require('workbox-webpack-plugin');
 
-const config = {
-  entry: './client/src/index',
+module.exports = {
+  entry: [
+    'webpack/hot/only-dev-server',
+    'react-hot-loader/patch',
+    './client/src/index'],
   output: {
-    path: path.join(__dirname, 'public/dist'),
-    filename: 'bundle.js'
+    path: path.join(__dirname, 'public/dist/'),
+    filename: 'bundle.js',
+    publicPath: '/public/dist'
   },
   module: {
     rules: [
@@ -24,6 +28,7 @@ const config = {
     ]
   },
   plugins: [
+    new webpack.HotModuleReplacementPlugin(),
     new WorkboxBuildWebpackPlugin({
       globDirectory: 'public',
       globPatterns: ['**\/*.{html,js,json,css,png,ico}'],
@@ -33,4 +38,3 @@ const config = {
   ]
 };
 
-export default config;
