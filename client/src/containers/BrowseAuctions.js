@@ -6,7 +6,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { GridList, GridTile } from 'material-ui/GridList';
 
 
-class BrowseProducts extends Component {
+class BrowseAuctions extends Component {
   constructor(props) {
     super(props);
 
@@ -58,7 +58,7 @@ class BrowseProducts extends Component {
       <div style={styles.grid}>
         {_.map(this.data, listing => (
           <div key={listing.id} style={styles.grow}>
-            <Link to={`/product/${listing.id}`}>
+            <Link to={`/auction/${listing.id}`}>
               <MuiThemeProvider>
                 <GridTile
                   key={listing.id}
@@ -76,4 +76,4 @@ class BrowseProducts extends Component {
   }
 }
 
-export default BrowseProducts;
+export default BrowseAuctions;

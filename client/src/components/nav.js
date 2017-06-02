@@ -23,7 +23,7 @@ export default class Nav extends Component {
             <Link to="/">
               <FlatButton label="Home" style={styles.buttons}/>
             </Link>
-            <Link to="/post/new">
+            <Link to="/auction/new">
               <FlatButton label="Post" style={styles.buttons}/>
             </Link>
           </div>
