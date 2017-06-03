@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const models = require('../../db/models');
+const pg = require('../../db/models/pgAPI');
 const middleware = require('../middleware');
 
 router.route('/')
@@ -15,14 +16,34 @@ router.route('/')
 
 router.route('/auctions')
   .get((req, res) => {
-    return models.Auction.collection().fetch({
-      withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidsProfiles']
-    })
-      .then(collection => {
-        res.send(collection);
+    pg.getAllAuctions()
+      .then(auctions => {
+        res.status(200).send(auctions);
+      })
+      .catch(error => {
+        res.status(404);
       });
   });
 
+// router.route('/auction/:id')
+//   .get((req, res) => {
+//     pg.getAuctionById(req.params.id)
+//       .then(auctionData => {
+//         res.status(200).send(auctionData);
+//       })
+//       .catch(error => {
+//         res.status(404);
+//       });
+//   })
+//   .delete((req, res) => {
+//     pg.deleteAuctionById(req.params.id)
+//       .then(deletedAuctionData => {
+//         res.status(202).send(deletedAuctionData);
+//       })
+//       .catch(error => {
+//         res.status(410);
+//       });
+//   });
 
 router.route('/auction/:id')
   .get((req, res) => {
@@ -76,7 +97,7 @@ router.route('/auction/:id')
     date: new Date(),
     category: 'camping'
   };
-  
+
   router.route('/auction/')
   //middleware.auth.verify,
   // put into post before (req, res)
@@ -119,7 +140,7 @@ router.route('/auction/:id')
                 })
                 .save()
                 .then( newAuction => {
-                  return models.Image 
+                  return models.Image
                     .forge({
                       auction_id: newAuction.id,
                       url: req.body.url
@@ -134,6 +155,6 @@ router.route('/auction/:id')
           console.log(`Handle rejected promise (${reason}) here.`);
         })
     });
-  
+
 
 module.exports = router;
