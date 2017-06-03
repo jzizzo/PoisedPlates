@@ -4,7 +4,7 @@ import renderer from 'react-test-renderer';
 
 it('Should match its default snapshot', () => {
   const tree = renderer.create(
-    <BrowseAuctions />
+    <BrowseAuctions fetchAuctions={()=>{}}/>
   ).toJSON();
 
   expect(tree).toMatchSnapshot();
