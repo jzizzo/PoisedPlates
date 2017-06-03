@@ -1,10 +1,19 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import { fetchAuction } from '../actions';
 
-export default class AuctionPage extends Component {
+class AuctionPage extends Component {
+  componentDidMount() {
+    const { id } = this.props.match.params;
+    this.props.fetchAuction(id);
+  }
+
   render() {
+    const { auction } = this.props;
+    console.log(auction)
     return (
       <MuiThemeProvider>
         <Card>
@@ -35,3 +44,10 @@ export default class AuctionPage extends Component {
     )
   }
 };
+
+function mapStateToProps({ auctions }, ownProps) {
+  return { auction: auctions[ownProps.match.params.id] };
+}
+
+export default connect(mapStateToProps, { fetchAuction })(AuctionPage);
+
