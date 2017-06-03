@@ -12,6 +12,11 @@ const styles = {
   nav: {
     backgroundColor: deepPurple500
   },
+  title: {
+    cursor: 'pointer',
+    textDecoration: 'none',
+    color: '#FFF'
+  },
   buttons: {
     marginTop: 5,
     color: '#FFF',
@@ -23,12 +28,9 @@ export default class Nav extends Component {
     return (
       <MuiThemeProvider>
         <AppBar
-          title="Toss.it"
+          title={<Link to="/" style={styles.title}>Toss.it</Link>}
           iconElementRight={
             <div style={styles.div}>
-              <Link to="/">
-                <FlatButton label="Home" style={styles.buttons}/>
-              </Link>
               <Link to="/auction/new">
                 <FlatButton label="Post" style={styles.buttons}/>
               </Link>
