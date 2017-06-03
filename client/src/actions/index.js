@@ -1,6 +1,8 @@
 import axios from "axios";
 
 export const FETCH_AUCTIONS = 'fetch_auctions';
+export const FETCH_AUCTION = 'fetch_auction';
+export const POST_AUCTION = 'post_auction';
 
 const ROOT_URL = 'http://localhost:3000/api';
 
@@ -11,4 +13,21 @@ export function fetchAuctions() {
     type: FETCH_AUCTIONS,
     payload: request
   }
+}
+
+export function postAuction(values) {
+  const request = axios.get(`${ROOT_URL}/auction`, values);
+
+  return {
+    type: POST_AUCTION,
+    payload: request
+  };
+}
+
+export function fetchAuction(id) {
+  const request = axios.get(`${ROOT_URL}/auction/:${id}`);
+  return {
+    type: FETCH_AUCTION,
+    payload: request
+  };
 }

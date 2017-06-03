@@ -1,37 +1,54 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
+import RaisedButton from 'material-ui/RaisedButton';
+import { fetchAuction } from '../actions';
 
-export default class AuctionPage extends Component {
+class AuctionPage extends Component {
+  componentDidMount() {
+    if (this.props.auction) {
+      const { id } = this.props.match.params;
+      this.props.fetchAuction(id);
+    }
+  }
+
   render() {
+    const { auction } = this.props;
+    if (!auction) {
+      return <div>Loading...</div>;
+    }
+
     return (
       <MuiThemeProvider>
         <Card>
           <CardHeader
-            title="<User>"
-            subtitle="<Rating?>"
+            title={auction.title}
+            // subtitle="<Rating?>"
             avatar="https://scontent.cdninstagram.com/t51.2885-15/e35/15258783_1219743038096510_7805315801564577792_n.jpg"
           />
 
           <CardMedia>
-            <img src="https://scontent.cdninstagram.com/t51.2885-15/e35/14334643_1830784853818907_1806926123_n.jpg" />
+            <img src={auction.images[0].url} />
           </CardMedia>
 
-          <CardTitle title="<Item Title>" subtitle="<Location?>" />
+          <CardTitle title={auction.title} subtitle={`${auction.location.city}, ${auction.location.state}`} />
 
           <CardActions>
-            <FlatButton label="BID" />
+            <RaisedButton label="bid" secondary={true} />
           </CardActions>
 
-          <CardText>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            Donec mattis pretium massa. Aliquam erat volutpat. Nulla facilisi.
-            Donec vulputate interdum sollicitudin. Nunc lacinia auctor quam sed pellentesque.
-            Aliquam dui mauris, mattis quis lacus id, pellentesque lobortis odio.
-          </CardText>
+          <CardText>{auction.description}</CardText>
         </Card>
       </MuiThemeProvider>
     )
   }
 };
+
+function mapStateToProps({ auctions }, ownProps) {
+  return { auction: auctions[ownProps.match.params.id] };
+}
+
+export default connect(mapStateToProps, { fetchAuction })(AuctionPage);
+
