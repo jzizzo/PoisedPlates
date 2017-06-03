@@ -2,11 +2,15 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';
+import { deepPurple500 } from 'material-ui/styles/colors';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 
 injectTapEventPlugin();
 
 const styles = {
+  nav: {
+    backgroundColor: deepPurple500
+  },
   buttons: {
     marginTop: 5,
     color: '#FFF',
@@ -28,6 +32,7 @@ export default class Nav extends Component {
             </Link>
           </div>
         }
+        style={styles.nav}
       />
     );
   }
