@@ -50,5 +50,6 @@ function mapStateToProps({ auctions }, ownProps) {
   return { auction: auctions[ownProps.match.params.id] };
 }
 
+export { AuctionPage };
 export default connect(mapStateToProps, { fetchAuction })(AuctionPage);
 

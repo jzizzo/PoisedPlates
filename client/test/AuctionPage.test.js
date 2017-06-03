@@ -1,7 +1,6 @@
 import React from 'react';
-import AuctionPage from '../src/containers/AuctionPage';
+import { AuctionPage } from '../src/containers/AuctionPage';
 import renderer from 'react-test-renderer';
-
 
 it('Should match its default snapshot', () => {
   const tree = renderer.create(

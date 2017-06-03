@@ -10,6 +10,9 @@ config/*.json
 # Webpack bundle
 public/dist/
 
+# Jest snapshots
+client/test/__snapshots__/*.snap
+
 # Logs
 logs
 *.log
