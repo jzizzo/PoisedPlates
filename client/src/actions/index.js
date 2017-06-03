@@ -25,7 +25,7 @@ export function postAuction(values) {
 }
 
 export function fetchAuction(id) {
-  const request = axios.get(`${ROOT_URL}/auction/:${id}`);
+  const request = axios.get(`${ROOT_URL}/auction/${id}`);
   return {
     type: FETCH_AUCTION,
     payload: request
