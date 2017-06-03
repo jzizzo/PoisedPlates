@@ -56,18 +56,26 @@ const email = value =>
   (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email'
     : undefined);
-const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined);
+
+
+
 
 class AuctionForm extends Component {
   componentDidMount() {
     this.refs.name // the Field
-      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      .focus(); // on TextField
+      // .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
+      // .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
+      // .focus(); // on TextField
+  }
+
+  onSubmit(values) {
+    console.log('values', values);
   }
 
   render() {
-    const {handleSubmit, pristine, numPizzas, reset, submitting} = this.props;
+    const {handleSubmit, pristine, reset, submitting} = this.props;
+    console.log(handleSubmit)
+    console.log('props', this.props)
     const styles = {
       align: {
         verticalAlign: 'bottom'
@@ -82,11 +90,11 @@ class AuctionForm extends Component {
       }
     }
     return (
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
         {/*-- Photo --*/}
         <div>
           <Field
-            name="image"
+            name="img"
             component={TextField}
             hintText="URL"
             floatingLabelText="Photo"
@@ -178,7 +186,7 @@ class AuctionForm extends Component {
           <RaisedButton
             label="Submit"
             primary={true}
-            onClick={()=>{}}
+            onClick={()=>{console.log('hello?', this)}}
             style={styles.button}
           />
           <Link to="/">
@@ -195,20 +203,22 @@ class AuctionForm extends Component {
   }
 }
 
-const selector = formValueSelector('example');
-
-AuctionForm = connect(state => ({
-  numPizzas: selector(state, 'pizzas'),
-}))(AuctionForm);
+const POST_NEW_AUCTION = 'PostNewAuction';
 
 AuctionForm = reduxForm({
-  form: 'example',
-  initialValues: {
-    delivery: 'delivery',
-    name: 'Jane Doe',
-    cheese: 'Cheddar',
-    pizzas: 1,
-  },
-})(AuctionForm);
+  form: POST_NEW_AUCTION
+})(AuctionForm)
 
-export default AuctionForm;
+const selector = formValueSelector(POST_NEW_AUCTION);
+
+function mapStateToProps(state) {
+    const img = selector(state, 'img');
+    return {
+      img
+    }
+  };
+
+
+export default connect(mapStateToProps)(AuctionForm);
+
+

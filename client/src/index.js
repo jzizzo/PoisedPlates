@@ -36,8 +36,8 @@ ReactDOM.render(
           <div>
             <Nav />
             <Switch>
-              <Route path="/auction/new" component={SubmitAuction} />
               <Route path="/auction/:id" component={AuctionPage} />
+              <Route path="/auction/" component={SubmitAuction} />
               <Route path="/" component={BrowseAuctions} />
             </Switch>
           </div>
