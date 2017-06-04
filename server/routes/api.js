@@ -81,3 +81,65 @@ module.exports = router;
   //         res.send(collection);
   //       });
   //   });
+  
+  router.route('/auction/')
+  //middleware.auth.verify,
+  // put into post before (req, res)
+    .post( (req, res) => {
+        return models.Location.where({city: req.body.city, state: req.body.state})
+        .fetch({
+          columns: ['id']
+        })
+        .then(id => {
+          if (id) {
+            return id;
+          } else { //insert city and state into db
+            return models.Location
+              .forge({
+                city: req.body.city,
+                state: req.body.state
+              })
+              .save()
+              .then(data => {
+                // returns new increment of locations table insert
+                return data.id;
+              });
+          }
+        })
+        .then( locationId => {
+          return models.Category.where({name: req.body.category})
+            .fetch({
+              columns: ['id']
+            })
+            .then( categoryId => {
+              return models.Auction
+                .forge({
+                  // profile_id is dummy as middleware.auth is commented out
+                  profile_id: 4,
+                  category_id: categoryId.id,
+                  location_id: locationId.id,
+                  end_time: req.body.end_time || new Date() ,
+                  title: req.body.title,
+                  description: req.body.description
+                })
+                .save()
+                .then( newAuction => {
+                  return models.Image 
+                    .forge({
+                      auction_id: newAuction.id,
+                      url: req.body.url
+                    })
+                    .save()
+                    .then( insertImage => {
+                      res.redirect(202, '/');
+                    })
+                })
+            })
+        }).catch( reason => {
+          console.log(`Handle rejected promise (${reason}) here.`);
+        })
+    });
+  
+
+module.exports = router;
+

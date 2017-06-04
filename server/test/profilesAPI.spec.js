@@ -12,7 +12,7 @@ describe('Profiles API', function () {
 
   // Resets database back to original settings
   afterEach(function (done) {
-    dbUtils.rollback(done);
+    // dbUtils.rollback(done);
   });
 
   it('accepts GET requests to /api/profiles', function (done) {

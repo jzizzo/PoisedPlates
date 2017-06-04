@@ -10,7 +10,7 @@ describe('Profile model tests', function () {
 
   // Resets database back to original settings
   afterEach(function (done) {
-    dbUtils.rollback(done);
+    // dbUtils.rollback(done);
   });
 
   it('Should be able to retrieve test data', function (done) {
