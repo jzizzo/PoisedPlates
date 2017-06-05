@@ -87,8 +87,7 @@ const pg = {
           .then(category => {
             return models.Auction
               .forge({
-                profile_id: 4,
-                // profile_id: options.user,
+                profile_id: options.user,
                 category_id: category.id,
                 location_id: location.id,
                 end_time: options.end_time || new Date(),
@@ -100,7 +99,7 @@ const pg = {
                 return models.Image
                   .forge({
                     auction_id: newAuction.id,
-                    url: options.images[0].url
+                    url: options.url
                   })
                   .save()
                   .then(() => {
