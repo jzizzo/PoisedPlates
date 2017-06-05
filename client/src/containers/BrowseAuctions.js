@@ -14,7 +14,6 @@ class BrowseAuctions extends Component {
   }
 
   renderAuctions() {
-    console.log('inside?', this.props.auctions)
     const styles = {
       image: {
         height: '300px',
@@ -26,7 +25,6 @@ class BrowseAuctions extends Component {
       }
     }
     return _.map(this.props.auctions, auction => {
-      console.log(auction)
       return (
         <div key={auction.id} style={styles.grow}>
           <Link to={`/auction/${auction.id}`}>
@@ -65,7 +63,6 @@ class BrowseAuctions extends Component {
 }
 
 function mapStateToProps(state) {
-  console.log('state', state)
   return { auctions: state.auctions };
 }
 

@@ -12,7 +12,6 @@ class AuctionPage extends Component {
       const { id } = this.props.match.params;
       this.props.postAuction(id);
     }
-    console.log('props:', this.props)
   }
 
   render() {
@@ -48,7 +47,6 @@ class AuctionPage extends Component {
 };
 
 function mapStateToProps({ auctions }, ownProps) {
-  console.log(ownProps)
   return { auction: auctions[ownProps.match.params.id] };
 }
 
