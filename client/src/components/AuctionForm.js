@@ -98,7 +98,6 @@ class AuctionForm extends Component {
         width: 80
       }
     }
-    console.log('p:', this.props)
     return (
       <form>
         {/*-- Photo --*/}
