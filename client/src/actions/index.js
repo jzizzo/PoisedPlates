@@ -16,7 +16,6 @@ export function fetchAuctions() {
 }
 
 export function postAuction(values, callback) {
-  console.log(values)
   const request = axios.post(`${ROOT_URL}/auction`, values)
     .then(() => callback());
 
