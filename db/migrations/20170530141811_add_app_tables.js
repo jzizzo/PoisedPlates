@@ -1,5 +1,6 @@
 
 exports.up = function(knex, Promise) {
+  var date = knex.raw('now()');
   return Promise.all([
     knex.schema.createTableIfNotExists('locations', function (table) {
       table.increments('id').unsigned().primary();
@@ -18,13 +19,13 @@ exports.up = function(knex, Promise) {
       table.timestamp('end_time').notNullable();
       table.string('title', 100).nullable();
       table.string('description', 200).nullable();
-      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
+      table.timestamp('created_at').notNullable().defaultTo(date);
+      table.timestamp('updated_at').notNullable().defaultTo(date);
     }),
     knex.schema.createTableIfNotExists('images', function(table) {
       table.increments('id').unsigned().primary();
       table.integer('auction_id').references('auctions.id').onDelete('CASCADE');
-      table.string('url', 100).nullable();
+      table.string('url', 300).nullable();
     }),
     knex.schema.createTableIfNotExists('categories', function(table) {
       table.increments('id').unsigned().primary();
@@ -36,8 +37,8 @@ exports.up = function(knex, Promise) {
       table.integer('profile_id').references('profiles.id').onDelete('CASCADE');
       table.integer('auction_id').references('auctions.id').onDelete('CASCADE');
       table.string('bid', 100).notNullable();
-      table.timestamp('created_at').notNullable().defaultTo(knex.raw('now()'));
-      table.timestamp('updated_at').notNullable().defaultTo(knex.raw('now()'));
+      table.timestamp('created_at').notNullable().defaultTo(date);
+      table.timestamp('updated_at').notNullable().defaultTo(date);
     })
   ]);
 };
