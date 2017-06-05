@@ -72,10 +72,11 @@ class AuctionForm extends Component {
   }
 
   onSubmit(values) {
+    // this needs to get changed in the future, but this matches what the API is expecting, an array full of images.
     values.img = [values.img];
-    console.log('values', values);
-    console.log('p', this.props)
-    this.props.postAuction(values);
+    this.props.postAuction(values, () => {
+      this.props.history.push('/');
+    });
 
 
 
