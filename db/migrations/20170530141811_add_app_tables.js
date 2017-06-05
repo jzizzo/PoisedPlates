@@ -25,7 +25,7 @@ exports.up = function(knex, Promise) {
     knex.schema.createTableIfNotExists('images', function(table) {
       table.increments('id').unsigned().primary();
       table.integer('auction_id').references('auctions.id').onDelete('CASCADE');
-      table.string('url', 100).nullable();
+      table.string('url', 300).nullable();
     }),
     knex.schema.createTableIfNotExists('categories', function(table) {
       table.increments('id').unsigned().primary();

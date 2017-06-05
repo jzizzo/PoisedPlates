@@ -55,9 +55,11 @@ router.route('/categories')
       });
   });
 
+//middleware.auth.verify,
 router.route('/auction')
   .post(middleware.auth.verify, (req, res) => {
-    const options = Object.assign({}, req.body, req.session.passport);
+    // const options = Object.assign({}, req.body, req.session.passport);
+    const options = Object.assign({}, req.body);
     pg.createAuction(options)
     .then(() => {
       res.status(200).redirect('/');
@@ -85,7 +87,7 @@ module.exports = router;
   router.route('/auction/')
   //middleware.auth.verify,
   // put into post before (req, res)
-    .post( (req, res) => {
+    .post(middleware.auth.verify, (req, res) => {
         return models.Location.where({city: req.body.city, state: req.body.state})
         .fetch({
           columns: ['id']
