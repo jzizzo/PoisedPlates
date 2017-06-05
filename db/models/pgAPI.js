@@ -54,7 +54,6 @@ const pg = {
   },
 
   createAuction: (options) => {
-    // console.log('options for createAuction: ', options);
     return models.Location
       .where({ city: options.city, state: options.state })
       .fetch({
@@ -101,7 +100,7 @@ const pg = {
                 return models.Image
                   .forge({
                     auction_id: newAuction.id,
-                    url: options.url
+                    url: options.images[0].url
                   })
                   .save()
                   .then(() => {
