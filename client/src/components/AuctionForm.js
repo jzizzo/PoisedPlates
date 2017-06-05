@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { postAuction } from '../actions';
+
+// Styles:
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import {AutoComplete as MUIAutoComplete} from 'material-ui';
@@ -69,13 +72,18 @@ class AuctionForm extends Component {
   }
 
   onSubmit(values) {
+    values.img = [values.img];
     console.log('values', values);
+    console.log('p', this.props)
+    this.props.postAuction(values);
+
+
+
+
   }
 
   render() {
     const {handleSubmit, pristine, reset, submitting} = this.props;
-    console.log(handleSubmit)
-    console.log('props', this.props)
     const styles = {
       align: {
         verticalAlign: 'bottom'
@@ -89,8 +97,9 @@ class AuctionForm extends Component {
         width: 80
       }
     }
+    console.log('p:', this.props)
     return (
-      <form onSubmit={handleSubmit(this.onSubmit.bind(this))}>
+      <form>
         {/*-- Photo --*/}
         <div>
           <Field
@@ -170,23 +179,25 @@ class AuctionForm extends Component {
             validate={required}
             style={styles.align}
           />
-          <Field
-            name="time"
-            component={TimePicker}
-            format={null}
-            // Do we need this?  defaultValue={null} // TimePicker requires an object,
-            // and redux-form defaults to ''
-            hintText="End Time"
-            validate={required}
-            style={styles.align}
-          />
+          {
+            // <Field
+            //           name="time"
+            //           component={TimePicker}
+            //           format={null}
+            //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
+            //           // and redux-form defaults to ''
+            //           hintText="End Time"
+            //           validate={required}
+            //           style={styles.align}
+            //         />
+                  }
         </div>
 
         <div>
           <RaisedButton
             label="Submit"
             primary={true}
-            onClick={()=>{console.log('hello?', this)}}
+            onClick={handleSubmit(this.onSubmit.bind(this))}
             style={styles.button}
           />
           <Link to="/">
@@ -203,22 +214,11 @@ class AuctionForm extends Component {
   }
 }
 
-const POST_NEW_AUCTION = 'PostNewAuction';
 
-AuctionForm = reduxForm({
-  form: POST_NEW_AUCTION
-})(AuctionForm)
-
-const selector = formValueSelector(POST_NEW_AUCTION);
-
-function mapStateToProps(state) {
-    const img = selector(state, 'img');
-    return {
-      img
-    }
-  };
-
-
-export default connect(mapStateToProps)(AuctionForm);
+export default reduxForm({
+  form: 'PostNewAuction'
+})(
+  connect(null,{ postAuction })(AuctionForm)
+);
 
 

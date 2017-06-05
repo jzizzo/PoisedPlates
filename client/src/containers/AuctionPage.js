@@ -4,14 +4,15 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { fetchAuction } from '../actions';
+import { postAuction } from '../actions';
 
 class AuctionPage extends Component {
   componentDidMount() {
     if (this.props.auction) {
       const { id } = this.props.match.params;
-      this.props.fetchAuction(id);
+      this.props.postAuction(id);
     }
+    console.log('props:', this.props)
   }
 
   render() {
@@ -47,9 +48,9 @@ class AuctionPage extends Component {
 };
 
 function mapStateToProps({ auctions }, ownProps) {
+  console.log(ownProps)
   return { auction: auctions[ownProps.match.params.id] };
 }
 
-export { AuctionPage };
-export default connect(mapStateToProps, { fetchAuction })(AuctionPage);
+export default connect(mapStateToProps, { postAuction })(AuctionPage);
 
