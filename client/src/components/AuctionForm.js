@@ -2,6 +2,9 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
+import { postAuction } from '../actions';
+
+// Styles:
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import {AutoComplete as MUIAutoComplete} from 'material-ui';
@@ -56,18 +59,33 @@ const email = value =>
   (value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
     ? 'Invalid email'
     : undefined);
-const tooManyPizzas = value => (value > 15 ? 'Are you mad?' : undefined);
+
+
+
 
 class AuctionForm extends Component {
   componentDidMount() {
     this.refs.name // the Field
-      .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      .focus(); // on TextField
+      // .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
+      // .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
+      // .focus(); // on TextField
+  }
+
+  onSubmit(values) {
+    // this needs to get changed in the future, but this matches what the API is expecting, an array full of images.
+    values["images"] = [{"id":5,"auction_id":5, "url": values.img}];
+
+    this.props.postAuction(values, () => {
+      this.props.history.push('/');
+    });
+
+
+
+
   }
 
   render() {
-    const {handleSubmit, pristine, numPizzas, reset, submitting} = this.props;
+    const {handleSubmit, pristine, reset, submitting} = this.props;
     const styles = {
       align: {
         verticalAlign: 'bottom'
@@ -82,11 +100,11 @@ class AuctionForm extends Component {
       }
     }
     return (
-      <form onSubmit={handleSubmit}>
+      <form>
         {/*-- Photo --*/}
         <div>
           <Field
-            name="image"
+            name="img"
             component={TextField}
             hintText="URL"
             floatingLabelText="Photo"
@@ -162,23 +180,25 @@ class AuctionForm extends Component {
             validate={required}
             style={styles.align}
           />
-          <Field
-            name="time"
-            component={TimePicker}
-            format={null}
-            // Do we need this?  defaultValue={null} // TimePicker requires an object,
-            // and redux-form defaults to ''
-            hintText="End Time"
-            validate={required}
-            style={styles.align}
-          />
+          {
+            // <Field
+            //           name="time"
+            //           component={TimePicker}
+            //           format={null}
+            //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
+            //           // and redux-form defaults to ''
+            //           hintText="End Time"
+            //           validate={required}
+            //           style={styles.align}
+            //         />
+                  }
         </div>
 
         <div>
           <RaisedButton
             label="Submit"
             primary={true}
-            onClick={()=>{}}
+            onClick={handleSubmit(this.onSubmit.bind(this))}
             style={styles.button}
           />
           <Link to="/">
@@ -195,20 +215,11 @@ class AuctionForm extends Component {
   }
 }
 
-const selector = formValueSelector('example');
 
-AuctionForm = connect(state => ({
-  numPizzas: selector(state, 'pizzas'),
-}))(AuctionForm);
+export default reduxForm({
+  form: 'PostNewAuction'
+})(
+  connect(null,{ postAuction })(AuctionForm)
+);
 
-AuctionForm = reduxForm({
-  form: 'example',
-  initialValues: {
-    delivery: 'delivery',
-    name: 'Jane Doe',
-    cheese: 'Cheddar',
-    pizzas: 1,
-  },
-})(AuctionForm);
 
-export default AuctionForm;

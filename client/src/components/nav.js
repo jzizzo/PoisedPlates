@@ -31,7 +31,7 @@ export default class Nav extends Component {
           title={<Link to="/" style={styles.title}>Toss.it</Link>}
           iconElementRight={
             <div style={styles.div}>
-              <Link to="/auction/new">
+              <Link to="/auction">
                 <FlatButton label="Post" style={styles.buttons}/>
               </Link>
             </div>

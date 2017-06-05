@@ -10,7 +10,7 @@ import { GridList, GridTile } from 'material-ui/GridList';
 class BrowseAuctions extends Component {
 
   componentDidMount() {
-    this.props.fetchAuctions ? this.props.fetchAuctions() : () => {};
+    this.props.fetchAuctions();
   }
 
   renderAuctions() {
