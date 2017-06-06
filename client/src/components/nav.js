@@ -1,5 +1,9 @@
 import React, { Component } from 'react';
+
+/* * Utils * */
 import { Link } from 'react-router-dom';
+
+/* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import FlatButton from 'material-ui/FlatButton';

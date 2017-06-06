@@ -1,8 +1,14 @@
-import _ from 'lodash';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { fetchAuctions } from '../actions';
+
+/* * Utils * */
+import _ from 'lodash';
 import { Link } from 'react-router-dom';
+
+/* * Actions * */
+import { fetchAuctions } from '../actions';
+
+/* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { GridList, GridTile } from 'material-ui/GridList';
 

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+/* * Actions * */
+import { postAuction } from '../actions';
+
+/* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
-import { postAuction } from '../actions';
 
 class AuctionPage extends Component {
   componentDidMount() {

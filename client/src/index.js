@@ -2,16 +2,23 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
+
+/* * Utils * */
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import promise from 'redux-promise';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import { composeWithDevTools } from 'redux-devtools-extension';
 
 import reducers from './reducers';
+/* * Components * */
 import Nav from './components/Nav';
-import BrowseAuctions from './containers/BrowseAuctions';
+import SubmitAuction from './components/SubmitAuction';
+
+/* * Containers * */
 import AuctionPage from './containers/AuctionPage';
-import SubmitAuction from './containers/SubmitAuction';
+import BrowseAuctions from './containers/BrowseAuctions';
+
+/* * Styles * */
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('./dist/service-worker.js')
