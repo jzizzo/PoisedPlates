@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+
+/* * Utils * */
 import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
+
+/* * Actions * */
 import { postAuction } from '../actions';
 
-// Styles:
+/* * Styles * */
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
 import {AutoComplete as MUIAutoComplete} from 'material-ui';

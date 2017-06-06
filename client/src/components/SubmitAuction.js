@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import AuctionForm from '../components/AuctionForm';
+
+/* * Containers * */
+import AuctionForm from '../containers/AuctionForm';
 
 export default class SubmitAuction extends Component {
   render() {
