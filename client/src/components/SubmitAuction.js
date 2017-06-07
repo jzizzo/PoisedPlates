@@ -13,9 +13,14 @@ export default class SubmitAuction extends Component {
         justifyContent: 'center'
       }
     }
+    console.log(this.props)
     return (
       <div style={styles.outer} >
-        <AuctionForm />
+        <AuctionForm
+          history={this.props.history}
+          location={this.props.location}
+          match={this.props.match}
+        />
       </div>
     )
   }
