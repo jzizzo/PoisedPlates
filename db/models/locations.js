@@ -6,9 +6,8 @@ const Location = db.Model.extend({
     return this.hasMany('Auctions');
   },
   profiles: function() {
-    return this.hasOne('Profile');
+    return this.hasOne('Profiles');
   }
 });
 
 module.exports = db.model('Locations', Location);
-

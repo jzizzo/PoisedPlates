@@ -17,9 +17,16 @@ router.route('/auctions')
   .get((req, res) => {
     pg.getAllAuctions()
       .then(auctions => {
-        res.status(200).send(auctions);
+        if (auctions) {
+          console.log(auctions);
+          res.status(200).send(auctions);
+        } else {
+          console.log(auctions);
+          res.status(404);
+        }
       })
       .catch(error => {
+        console.log(error);
         res.status(404);
       });
   });
@@ -55,20 +62,45 @@ router.route('/categories')
       });
   });
 
-//middleware.auth.verify,
 router.route('/auction')
   .post(middleware.auth.verify, (req, res) => {
     const options = Object.assign({}, req.body, req.session.passport);
     // const options = Object.assign({}, req.body); // for test purpose
     pg.createAuction(options)
     .then(() => {
-      console.log(options)
       res.status(200).redirect('/');
     })
     .catch(error => {
       res.status(401);
     });
   });
+
+router.route('/endingAuctions')
+  .get((req, res) => {
+    pg.retrieveEndingAuctions()
+      .then(auctions => {
+        res.send(auctions);
+      });
+  });
+
+router.route('/updateEndingAuctions')
+  .get((req, res) => {
+    pg.updateEndingAuctions(1)
+      .then((auction) => {
+        res.send(auction);
+      });
+  });
+
+router.route('/findHighestBidderForAuction')
+  .get((req, res) => {
+    pg.findHighestBidderForAuction(1)
+      .then((profile) => {
+        console.log('profile_bids.profile_id: ', profile.profile_id);
+        res.send(profile);
+      });
+  });
+
+
 
 module.exports = router;
 
@@ -84,9 +116,3 @@ module.exports = router;
   //         res.send(collection);
   //       });
   //   });
-  
-  
-  
-
-
-
