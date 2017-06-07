@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import BidModal from './BidModal';
 
 /* * Actions * */
-import { postAuction } from '../actions';
+import { postAuction, toggleModal } from '../actions';
 
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -40,20 +41,26 @@ class AuctionPage extends Component {
           <CardTitle title={auction.title} subtitle={`${auction.location.city}, ${auction.location.state}`} />
 
           <CardActions>
-            <RaisedButton label="bid" secondary={true} />
+            <RaisedButton label="bid" secondary={true} onClick={this.props.toggleModal}/>
           </CardActions>
 
-          <CardText>{auction.description}</CardText>
+          <CardText>
+            <BidModal />
+            {auction.description}
+          </CardText>
         </Card>
       </MuiThemeProvider>
     )
   }
 };
 
-function mapStateToProps({ auctions }, ownProps) {
-  return { auction: auctions[ownProps.match.params.id] };
+const mapStateToProps = ({ auctions, bidding }, ownProps) => {
+  return {
+    auction: auctions[ownProps.match.params.id],
+    bidding: bidding
+  };
 }
 
 export { AuctionPage };
-export default connect(mapStateToProps, { postAuction })(AuctionPage);
+export default connect(mapStateToProps, { postAuction, toggleModal })(AuctionPage);
 
