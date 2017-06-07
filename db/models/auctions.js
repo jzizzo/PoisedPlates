@@ -3,25 +3,24 @@ const db = require('../');
 const Auction = db.Model.extend({
   tableName: 'auctions',
   images: function() {
-    return this.hasMany('Image');
+    return this.hasMany('Images');
   },
   location: function() {
     return this.belongsTo('Locations');
   },
   auctionOwner: function() {
-    return this.belongsTo('Profile');
+    return this.belongsTo('Profiles');
   },
   bids: function() {
-    return this.hasMany('ProfileBids');
+    return this.hasMany('Bids');
   },
   category: function() {
-    return this.belongsTo("Category");
+    return this.belongsTo("Categories");
   },
-  bidsProfiles: function() {
-    return this.hasMany('Profile').through('ProfileBids', 'id', 'profile_id');
+  bidders: function() {
+    return this.hasMany('Profiles').through('Bids', 'id', 'auction_id', 'profile_id', 'id');
   }
 
 });
 
 module.exports = db.model('Auctions', Auction);
-

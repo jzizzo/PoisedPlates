@@ -3,7 +3,7 @@ const models = require('./');
 const pg = {
   getAllAuctions: () => {
     return models.Auction.collection().fetch({
-      withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidsProfiles']
+      withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidders']
     })
     .then(collection => {
       return collection;
@@ -17,7 +17,7 @@ const pg = {
     return models.Auction
       .where({ id: auctionId })
       .fetch({
-        withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidsProfiles']
+        withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidders']
       })
       .then(auction => {
         return auction;
@@ -113,6 +113,42 @@ const pg = {
       })
       .catch(error => {
         return error;
+      });
+  },
+
+  retrieveEndingAuctions(currentTime = new Date(Date.now())) {
+    return models.Auction.query((qb) => {
+      qb.where('ended', false).andWhere('end_time', '<', currentTime);
+    })
+      .fetchAll({
+        columns: ['id', 'profile_id'],
+        withRelated: [{
+          'auctionOwner': (qb) => {
+            qb.column('id', 'first', 'last', 'email');
+          }
+        }]
+      })
+      .then(auctions => {
+        return auctions;
+      });
+  },
+
+  updateEndingAuctions(auctionId) {
+    return models.Auction
+      .where({id: auctionId})
+      .save({ended: true}, {patch: true});
+  },
+
+  findHighestBidderForAuction(auctionId) {
+    return models.Auction
+      .where({id: auctionId})
+      // .orderBy('bids', 'desc')
+      // .orderBy('created_at', 'desc')
+      .fetch({
+        withRelated: ['bidders', 'bids']
+      })
+      .then(highestBidder => {
+        return highestBidder;
       });
   }
 };
