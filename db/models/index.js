@@ -4,4 +4,4 @@ module.exports.Image = require('./images');
 module.exports.Category = require('./categories');
 module.exports.Auction = require('./auctions');
 module.exports.Location = require('./locations');
-module.exports.ProfileBid = require('./bids');
+module.exports.Bid = require('./bids');

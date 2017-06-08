@@ -1,59 +1,112 @@
 const models = require('./');
 
 const pg = {
-  getAllAuctions: () => {
-    return models.Auction.collection().fetch({
-      withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidders']
-    })
-    .then(collection => {
-      return collection;
-    })
-    .catch(error => {
-      return error;
-    });
-  },
-
-  getAuctionById: (auctionId) => {
-    return models.Auction
-      .where({ id: auctionId })
+  getAllAuctions: (cb) => {
+    return models.Auction.collection()
       .fetch({
-        withRelated: ['images', 'location', 'auctionOwner', 'bids', 'category', 'bidders']
+        columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
+        withRelated: [{
+          'images': (qb) => {
+            qb.select('auction_id', 'url');
+          },
+          'location': (qb) => {
+            qb.select('id', 'city', 'state');
+          },
+          'category': (qb) => {
+            qb.select('id', 'name');
+          }
+        }]
       })
-      .then(auction => {
-        return auction;
+      .then(auctions => {
+        return cb(null, auctions);
       })
-      .catch(error => {
-        return error;
+      .catch(err => {
+        return cb(err, null);
       });
   },
 
-  deleteAuctionById: (auctionId) => {
+  getAuctionById: (auctionId, cb) => {
+    return models.Auction
+      .where({ id: auctionId })
+      // .fetch({
+      //   withRelated: ['images', 'location', 'auctionOwner', 'category']
+      // })
+      .fetch({
+        columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
+        withRelated: [{
+          'images': (qb) => {
+            qb.select('auction_id', 'url');
+          },
+          'location': (qb) => {
+            qb.select('id', 'city', 'state');
+          },
+          'category': (qb) => {
+            qb.select('id', 'name');
+          }
+        }]
+      })
+      .then(auction => {
+        cb(null, auction);
+      })
+      .catch(err => {
+        cb(err, null);
+      });
+  },
+
+  deleteAuctionById: (auctionId, cb) => {
     return models.Auction
       .where({ id: auctionId })
       .destroy()
       .then(deletedAuction => {
-        return deletedAuction;
+        cb(null, deletedAuction);
       })
-      .catch(error => {
-        return error;
+      .catch(err => {
+        cb(err, null);
       });
   },
 
-  getAllCategories: () => {
+  postBid: (options, cb) => {
+    return models.Bid
+      .forge(options)
+      .save()
+      .then(bid => {
+        cb(null, bid);
+      })
+      .catch(err => {
+        cb(err, null);
+      });
+  },
+
+  getAllCategories: (cb) => {
     return models.Category
       .collection()
       .fetch({
         columns: ['id', 'name']
       })
       .then(categories => {
-        return categories;
+        cb(null, categories);
       })
-      .catch(error => {
-        return error;
+      .catch(err => {
+        cb(err, null);
       });
   },
 
-  createAuction: (options) => {
+  currentUserBid: ({ auctionId, profileId }, cb) => {
+    return models.Bid
+      .where({ auction_id: auctionId, profile_id: profileId })
+      .orderBy('bid', 'desc')
+      .fetch({
+        columns: ['bid']
+      })
+      .then(bid => {
+        cb(null, bid);
+      })
+      .catch(err => {
+        cb(err, null);
+      });
+  },
+
+  createAuction: (options, cb) => {
     return models.Location
       .where({ city: options.city, state: options.state })
       .fetch({
@@ -70,11 +123,7 @@ const pg = {
             })
             .save()
             .then(newLocation => {
-              // returns new increment of locations table insert
               return newLocation;
-            })
-            .catch(error => {
-              return error;
             });
         }
       })
@@ -103,23 +152,17 @@ const pg = {
                   })
                   .save()
                   .then(() => {
-                    return newAuction;
+                    cb(null, newAuction);
                   });
-              })
-              .catch(error => {
-                return error;
               });
           });
-      })
-      .catch(error => {
-        return error;
       });
   },
 
-  retrieveAndUpdateEndingAuctions: (currentTime = new Date(Date.now())) => {
+  retrieveAndUpdateEndingAuctions: (currentTime, cb) => {
     return models.Auction.query((qb) => {
-      qb.where('ended', false).andWhere('end_time', '<', currentTime);
-    })
+        qb.where('ended', false).andWhere('end_time', '<', currentTime);
+      })
       .fetchAll({
         columns: ['id', 'profile_id', 'title'],
         withRelated: ['auctionOwner', 'bidders', {
@@ -158,6 +201,7 @@ const pg = {
         });
       })
       .tap(endingAuctions => {
+        // update ending auctions
         let auctionIds = endingAuctions.map((auction) => {
           return auction.auction_id;
         });
@@ -165,10 +209,13 @@ const pg = {
           qb.whereIn('id', auctionIds).update({ended: true});
         }).fetch();
       })
-      .then(endingAuctions => endingAuctions);
-  },
-
-  
+      .then(endingAuctions => {
+        cb(null, endingAuctions);
+      })
+      .catch(err => {
+        cb(err, null);
+      });
+  }
 };
 
 module.exports = pg;
