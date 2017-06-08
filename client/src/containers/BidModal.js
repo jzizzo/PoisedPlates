@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 
 import { Field, reduxForm } from 'redux-form';
 
-import { toggleModal } from '../actions';
+import { toggleModal, fetchBid, postBid } from '../actions';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dialog from 'material-ui/Dialog';
@@ -11,15 +11,24 @@ import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
 import { TextField } from 'redux-form-material-ui';
 
-// validation functions
 const required = value => (value == null ? 'Required' : undefined);
-const bid = value =>
-  (value && !/^[0-9]+$/i.test(value)
-    ? 'Must be a whole number'
-    : undefined);
 
 
 class BidModal extends Component {
+  componentDidMount() {
+    this.props.fetchBid();
+  }
+
+  validBid(value) {
+    if (value && !/^[0-9]+$/i.test(value)) {
+      return 'Must be a whole number';
+    } else if (value && Number(value) <= Number(this.props.currentBid)) {
+      return 'Must be greater than your current bid';
+    } else {
+      return undefined;
+    }
+  }
+
   submitBid(bid) {
     console.log(bid);
     this.props.toggleModal();
@@ -50,13 +59,13 @@ class BidModal extends Component {
           title={`Ends: ${this.props.auction.end_time}`}
           actions={actions}
           modal={true}
-          open={this.props.bidding.modal}
+          open={this.props.modal}
         >
           <Field
             name="bid"
             component={TextField}
             hintText="$"
-            validate={[required, bid]}
+            validate={[required, this.validBid.bind(this)]}
           />
         </Dialog>
       </MuiThemeProvider>
@@ -67,14 +76,12 @@ class BidModal extends Component {
 const mapStateToProps = ({ bidding }, ownProps) => {
   return {
     auction: ownProps.auction,
-    bidding: bidding
+    modal: bidding.modal,
+    currentBid: bidding.currentBid
   };
 };
 
 export { BidModal };
 export default reduxForm({
-  form: 'placeBid',
-  // initialValues: {
-  //   bid: this.props.current_bid
-  // }
-})(connect(mapStateToProps, { toggleModal })(BidModal));
+  form: 'placeBid'
+})(connect(mapStateToProps, { toggleModal, fetchBid, postBid })(BidModal));
