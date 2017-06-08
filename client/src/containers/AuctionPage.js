@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import BidModal from './BidModal';
 
 /* * Actions * */
-import { postAuction, toggleModal } from '../actions';
+import { fetchAuction, toggleModal } from '../actions';
 
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -13,9 +13,9 @@ import RaisedButton from 'material-ui/RaisedButton';
 
 class AuctionPage extends Component {
   componentDidMount() {
-    if (this.props.auction) {
+    if (!this.props.auction) {
       const { id } = this.props.match.params;
-      this.props.postAuction(id);
+      this.props.fetchAuction(id);
     }
   }
 
@@ -62,5 +62,5 @@ const mapStateToProps = ({ auctions, bidding }, ownProps) => {
 }
 
 export { AuctionPage };
-export default connect(mapStateToProps, { postAuction, toggleModal })(AuctionPage);
+export default connect(mapStateToProps, { fetchAuction, toggleModal })(AuctionPage);
 
