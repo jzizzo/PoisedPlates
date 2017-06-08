@@ -45,7 +45,7 @@ class AuctionPage extends Component {
           </CardActions>
 
           <CardText>
-            <BidModal />
+            <BidModal auction={auction} />
             {auction.description}
           </CardText>
         </Card>

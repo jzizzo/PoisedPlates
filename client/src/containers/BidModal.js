@@ -1,49 +1,80 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
+import { Field, reduxForm } from 'redux-form';
+
 import { toggleModal } from '../actions';
 
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import Dialog from 'material-ui/Dialog';
 import FlatButton from 'material-ui/FlatButton';
 import RaisedButton from 'material-ui/RaisedButton';
+import { TextField } from 'redux-form-material-ui';
+
+// validation functions
+const required = value => (value == null ? 'Required' : undefined);
+const bid = value =>
+  (value && !/^[0-9]+$/i.test(value)
+    ? 'Must be a whole number'
+    : undefined);
 
 
 class BidModal extends Component {
+  submitBid(bid) {
+    console.log(bid);
+    this.props.toggleModal();
+    this.props.reset();
+  }
+
+  handleCancel() {
+    this.props.toggleModal();
+    this.props.reset();
+  }
 
   render() {
     const actions = [
       <FlatButton
         label="Cancel"
-        onClick={this.props.toggleModal}
+        onClick={this.handleCancel.bind(this)}
       />,
       <FlatButton
         label="Place Bid"
         primary={true}
-        onClick={this.props.toggleModal}
+        onClick={this.props.handleSubmit(this.submitBid.bind(this))}
       />
     ];
 
     return (
       <MuiThemeProvider>
         <Dialog
-          title="Title"
+          title={`Ends: ${this.props.auction.end_time}`}
           actions={actions}
           modal={true}
           open={this.props.bidding.modal}
         >
-          Hi
+          <Field
+            name="bid"
+            component={TextField}
+            hintText="$"
+            validate={[required, bid]}
+          />
         </Dialog>
       </MuiThemeProvider>
     )
   }
 }
 
-const mapStateToProps = ({ bidding }) => {
+const mapStateToProps = ({ bidding }, ownProps) => {
   return {
+    auction: ownProps.auction,
     bidding: bidding
   };
 };
 
 export { BidModal };
-export default connect(mapStateToProps, { toggleModal })(BidModal);
+export default reduxForm({
+  form: 'placeBid',
+  // initialValues: {
+  //   bid: this.props.current_bid
+  // }
+})(connect(mapStateToProps, { toggleModal })(BidModal));
