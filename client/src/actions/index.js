@@ -38,17 +38,27 @@ export function fetchAuction(id) {
 
 export const toggleModal = () => ({ type: TOGGLE_MODAL });
 
-export const fetchBid = () => ({
-  type: FETCH_BID,
-  payload: {data: 0} // axios.get()
-});
+// export const fetchBid = (id) => ({
+//   type: FETCH_BID,
+//   payload: axios.get(`${ROOT_URL}/auction/${id}/currentBid`)
+// });
 
-export const postBid = (bid, callback) => {
-  const request = axios.post(``, bid)
-    .then(() => callback());
+export const fetchBid = (id) => {
+  const request = axios.get(`${ROOT_URL}/auction/${id}/currentBid`)
+    .then(data => console.log(data));
+  // console.log('fetch response', request);
 
   return {
-    type: POST_AUCTION,
+    type: FETCH_BID,
+    payload: request
+  }
+}
+
+export const postBid = (id, bid) => {
+  const request = axios.post(`${ROOT_URL}/auction/${id}`, { amt: bid });
+
+  return {
+    type: POST_BID,
     payload: request
   };
 };

@@ -15,7 +15,7 @@ export default (state = initialState, action) => {
       });
     case FETCH_BID:
       return Object.assign({}, state, {
-        currentBid: action.payload.data // ???
+        currentBid: action.payload // ???
       })
     default:
       return state;

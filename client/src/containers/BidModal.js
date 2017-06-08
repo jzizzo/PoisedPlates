@@ -16,7 +16,7 @@ const required = value => (value == null ? 'Required' : undefined);
 
 class BidModal extends Component {
   componentDidMount() {
-    this.props.fetchBid();
+    this.props.fetchBid(this.props.auction.id);
   }
 
   validBid(value) {
@@ -29,10 +29,12 @@ class BidModal extends Component {
     }
   }
 
-  submitBid(bid) {
-    console.log(bid);
+  submitBid(input) {
+    console.log('bid:', input.bid);
+    this.props.postBid(this.props.auction.id, Number(input.bid));
     this.props.toggleModal();
     this.props.reset();
+    this.props.fetchBid(this.props.auction.id);
   }
 
   handleCancel() {
