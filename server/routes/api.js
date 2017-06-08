@@ -35,10 +35,11 @@ router.route('/auction/:id')
     });
   })
   .post((req, res) => {
+    console.log("I'm in /auction/:id posting a bid");
     let options = {
-      auctionId: req.params.id,
-      profileId: req.session.passport.user,
-      bidAmt: req.body.amt
+      auction_id: req.params.id,
+      profile_id: req.session.passport.user,
+      bid: req.body.amt
     };
     pg.postBid(options, (err, bid) => {
       if (err) {
@@ -62,7 +63,6 @@ router.route('/categories')
 router.route('/auction')
   .post(middleware.auth.verify, (req, res) => {
     const options = Object.assign({}, req.body, req.session.passport);
-    // const options = Object.assign({}, req.body); // for test purpose
     pg.createAuction(options, (err, auction) => {
       if (err) {
         console.log("Couldn't create an auction: ", err);
@@ -72,10 +72,10 @@ router.route('/auction')
     });
   });
 
-router.route(middleware.auth.verify, '/auction/:auction_id/currentBid')
+router.route(middleware.auth.verify, '/auction/:id/currentBid')
   .get((req, res) => {
     let options = {
-      auctionId: req.params.auction_id,
+      auctionId: req.params.id,
       profileId: req.session.passport.user
     };
     pg.currentUserBid(options, (err, bid) => {
@@ -83,7 +83,7 @@ router.route(middleware.auth.verify, '/auction/:auction_id/currentBid')
         console.log("Couldn't get the current bid: ", err);
         res.status(404);
       }
-      res.status(200).send(bid);
+      res.send(bid);
     });
   });
 
