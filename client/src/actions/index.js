@@ -55,10 +55,10 @@ export const fetchBid = (id) => {
 }
 
 export const postBid = (id, bid) => {
-  const request = axios.post(`${ROOT_URL}/auction/${id}`, { amt: bid });
+  axios.post(`${ROOT_URL}/auction/${id}`, { amt: bid });
 
   return {
     type: POST_BID,
-    payload: request
+    payload: bid
   };
 };
