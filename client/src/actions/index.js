@@ -3,6 +3,9 @@ import axios from "axios";
 export const FETCH_AUCTIONS = 'fetch_auctions';
 export const FETCH_AUCTION = 'fetch_auction';
 export const POST_AUCTION = 'post_auction';
+export const TOGGLE_MODAL = 'TOGGLE_MODAL';
+export const FETCH_BID = 'FETCH_BID';
+export const POST_BID = 'POST_BID';
 
 const ROOT_URL = 'http://localhost:3000/api';
 
@@ -32,3 +35,20 @@ export function fetchAuction(id) {
     payload: request
   };
 }
+
+export const toggleModal = () => ({ type: TOGGLE_MODAL });
+
+export const fetchBid = () => ({
+  type: FETCH_BID,
+  payload: {data: 0} // axios.get()
+});
+
+export const postBid = (bid, callback) => {
+  const request = axios.post(``, bid)
+    .then(() => callback());
+
+  return {
+    type: POST_AUCTION,
+    payload: request
+  };
+};
