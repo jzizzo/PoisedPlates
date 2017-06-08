@@ -34,7 +34,7 @@ class AuctionPage extends Component {
             avatar="https://scontent.cdninstagram.com/t51.2885-15/e35/15258783_1219743038096510_7805315801564577792_n.jpg"
           />
 
-          <CardMedia>
+          <CardMedia overlay={<CardTitle subtitle={`Ends: ${auction.end_time}`} />} >
             <img src={auction.images[0].url} />
           </CardMedia>
 
