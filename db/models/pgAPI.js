@@ -116,41 +116,59 @@ const pg = {
       });
   },
 
-  retrieveEndingAuctions(currentTime = new Date(Date.now())) {
+  retrieveAndUpdateEndingAuctions: (currentTime = new Date(Date.now())) => {
     return models.Auction.query((qb) => {
       qb.where('ended', false).andWhere('end_time', '<', currentTime);
     })
       .fetchAll({
-        columns: ['id', 'profile_id'],
-        withRelated: [{
-          'auctionOwner': (qb) => {
-            qb.column('id', 'first', 'last', 'email');
+        columns: ['id', 'profile_id', 'title'],
+        withRelated: ['auctionOwner', 'bidders', {
+          'bids': (qb) => {
+            qb.orderBy('bid', 'desc').orderBy('created_at', 'asc');
           }
         }]
       })
-      .then(auctions => {
-        return auctions;
-      });
-  },
-
-  updateEndingAuctions(auctionId) {
-    return models.Auction
-      .where({id: auctionId})
-      .save({ended: true}, {patch: true});
-  },
-
-  findHighestBidderForAuction(auctionId) {
-    return models.Auction
-      .where({id: auctionId})
-      // .orderBy('bids', 'desc')
-      // .orderBy('created_at', 'desc')
-      .fetch({
-        withRelated: ['bidders', 'bids']
+      .then(auctionModels => {
+        let auctions = auctionModels.toJSON();
+        return auctions.map((auction) => {
+          let winningBidAmt = auction.bids[0].bid;
+          let winningBidderProfileId = auction.bids[0].profile_id;
+          let winningBidder = auction.bidders
+            .filter((bidder) => {
+                return bidder.id === winningBidderProfileId;
+              })
+            .map((winner) => {
+              return {
+                bid: winningBidAmt,
+                first: winner.first,
+                last: winner.last,
+                email: winner.email
+              };
+            });
+          return {
+            auction_id: auction.id,
+            auctionTitle: auction.title,
+            auctionOwner: {
+              first: auction.auctionOwner.first,
+              last: auction.auctionOwner.last,
+              email: auction.auctionOwner.email
+            },
+            winningBidder
+          };
+        });
       })
-      .then(highestBidder => {
-        return highestBidder;
-      });
-  }
+      .tap(endingAuctions => {
+        let auctionIds = endingAuctions.map((auction) => {
+          return auction.auction_id;
+        });
+        return models.Auction.query((qb) => {
+          qb.whereIn('id', auctionIds).update({ended: true});
+        }).fetch();
+      })
+      .then(endingAuctions => endingAuctions);
+  },
+
+  
 };
 
 module.exports = pg;

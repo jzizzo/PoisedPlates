@@ -77,26 +77,20 @@ router.route('/auction')
 
 router.route('/endingAuctions')
   .get((req, res) => {
-    pg.retrieveEndingAuctions()
+    pg.retrieveAndUpdateEndingAuctions()
       .then(auctions => {
         res.send(auctions);
       });
   });
 
-router.route('/updateEndingAuctions')
+router.route(middleware.auth.verify, '/auction/:auction_id/currentBid')
   .get((req, res) => {
-    pg.updateEndingAuctions(1)
-      .then((auction) => {
-        res.send(auction);
-      });
-  });
-
-router.route('/findHighestBidderForAuction')
-  .get((req, res) => {
-    pg.findHighestBidderForAuction(1)
-      .then((profile) => {
-        console.log('profile_bids.profile_id: ', profile.profile_id);
-        res.send(profile);
+    pg.currentUserBid(req.params.auction_id, req.session.passport.user)
+      .then((bidAmt) => {
+        if (bidAmt) {
+          res.status(200).send(bidAmt);
+        }
+        res.status(404);
       });
   });
 
