@@ -1,5 +1,5 @@
 const CronJob = require('cron').CronJob;
-const pg = require('../../db/models/pgAPI');
+const AuctionsController = require('../../server/controllers').Auctions;
 const config = require('config')['mailgun'];
 const Mailgun = require('mailgun-js');
 const nunjucks = require('nunjucks');
@@ -54,7 +54,7 @@ const sendMessage = (params) => {
 
 const notifyAuctionOwnersAndWinners = () => {
     let currentTime = new Date(Date.now());
-    pg.retrieveAndUpdateEndingAuctions(currentTime, (err, auctions) => {
+    AuctionsController.retrieveAndUpdateEndingAuctions(currentTime, (err, auctions) => {
       if (auctions) {
         auctions.forEach((auction) => {
           let { owner, winner } = constructEmailTemplates(auction);

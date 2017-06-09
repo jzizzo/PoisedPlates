@@ -1,17 +1,17 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const ProfileController = require('../controllers').Profiles;
+const ProfilesController = require('../controllers').Profiles;
 
 router.route('/')
-  .get(ProfileController.getAll)
-  // .post(ProfileController.create)
+  .get(ProfilesController.getAll)
+  // .post(ProfilesController.create)
   ;
 
 router.route('/:id')
-  .get(ProfileController.getOne)
-  .put(ProfileController.update)
-  // .delete(ProfileController.deleteOne)
+  .get(ProfilesController.getOne)
+  .put(ProfilesController.update)
+  // .delete(ProfilesController.deleteOne)
   ;
 
 module.exports = router;
