@@ -22,7 +22,7 @@ class BidModal extends Component {
   validBid(value) {
     if (value && !/^[0-9]+$/i.test(value)) {
       return 'Must be a whole number';
-    } else if (value && Number(value) <= Number(this.props.currentBid)) {
+    } else if (value && Number(value) <= this.props.currentBid) {
       return 'Must be greater than your current bid';
     } else {
       return undefined;
@@ -30,11 +30,9 @@ class BidModal extends Component {
   }
 
   submitBid(input) {
-    console.log('bid:', input.bid);
     this.props.postBid(this.props.auction.id, Number(input.bid));
     this.props.toggleModal();
     this.props.reset();
-    this.props.fetchBid(this.props.auction.id);
   }
 
   handleCancel() {
@@ -66,7 +64,7 @@ class BidModal extends Component {
           <Field
             name="bid"
             component={TextField}
-            hintText="$"
+            hintText={`$${this.props.currentBid || 0}`}
             validate={[required, this.validBid.bind(this)]}
           />
         </Dialog>

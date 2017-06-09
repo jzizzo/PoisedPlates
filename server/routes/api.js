@@ -72,8 +72,8 @@ router.route('/auction')
     });
   });
 
-router.route(middleware.auth.verify, '/auction/:id/currentBid')
-  .get((req, res) => {
+router.route('/auction/:id/currentBid')
+  .get(middleware.auth.verify, (req, res) => {
     let options = {
       auctionId: req.params.id,
       profileId: req.session.passport.user

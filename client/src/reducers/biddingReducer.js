@@ -15,8 +15,12 @@ export default (state = initialState, action) => {
       });
     case FETCH_BID:
       return Object.assign({}, state, {
-        currentBid: action.payload // ???
-      })
+        currentBid: action.payload.data.bid
+      });
+    case POST_BID:
+      return Object.assign({}, state, {
+        currentBid: action.payload
+      });
     default:
       return state;
   }
