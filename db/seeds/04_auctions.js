@@ -13,7 +13,8 @@ exports.seed = function(knex, Promise) {
         { profile_id: 5, category_id: 15, location_id: 4, end_time: now, title: 'Canon camera', description: 'camera 35MM cannon' },
         { profile_id: 5, category_id: 15, location_id: 4, end_time: future, title: 'Apple MacBook Pro 13-inch', description: 'Gently Used, mid-2015' },
         { profile_id: 5, category_id: 15, location_id: 4, end_time: future, title: 'klean kanteen insulated', description: '27oz green' },
-        { profile_id: 2, category_id: 22, location_id: 1, end_time: future, title: 'Baseball bat', description: 'Tan, oak, 15lbs' }
+        { profile_id: 2, category_id: 22, location_id: 1, end_time: future, title: 'Baseball bat', description: 'Tan, oak, 15lbs' },
+        { profile_id: 2, category_id: 22, location_id: 1, end_time: now, title: 'Soccer ball', description: 'Nike size 5' }
       ]);
     });
 };
