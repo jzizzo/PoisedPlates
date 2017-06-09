@@ -21,13 +21,13 @@ exports.seed = function(knex, Promise) {
         { profile_id: 2, auction_id: 2, bid: 5, created_at: three},
         { profile_id: 2, auction_id: 2, bid: 6, created_at: four },
         { profile_id: 3, auction_id: 2, bid: 7, created_at: five },
-        { profile_id: 4, auction_id: 2, bid: 8, created_at: six },
-        { profile_id: 2, auction_id: 3, bid: 8, created_at: seven },
+        { profile_id: 2, auction_id: 2, bid: 8, created_at: six },
+        { profile_id: 4, auction_id: 3, bid: 8, created_at: seven },
         { profile_id: 3, auction_id: 3, bid: 8, created_at: eight },
-        { profile_id: 4, auction_id: 3, bid: 10, created_at: one },
-        { profile_id: 4, auction_id: 4, bid: 8, created_at: one },
+        { profile_id: 5, auction_id: 3, bid: 10, created_at: one },
+        { profile_id: 2, auction_id: 4, bid: 8, created_at: one },
         { profile_id: 3, auction_id: 4, bid: 8, created_at: two },
-        { profile_id: 2, auction_id: 4, bid: 8, created_at: three }
+        { profile_id: 4, auction_id: 4, bid: 8, created_at: three }
       ]);
     });
 };
