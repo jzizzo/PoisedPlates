@@ -64,7 +64,7 @@ class BidModal extends Component {
           <Field
             name="bid"
             component={TextField}
-            hintText={`$${this.props.currentBid}`}
+            hintText={`$${this.props.currentBid || 0}`}
             validate={[required, this.validBid.bind(this)]}
           />
         </Dialog>
