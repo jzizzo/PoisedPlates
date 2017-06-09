@@ -1,5 +1,31 @@
 const models = require('./');
 
+const determineWinningBidder = (auction) => {
+  let winningBidder;
+  if (auction.bids[0]) {
+    let winningBidAmt = auction.bids[0].bid;
+    let winningBidderProfileId = auction.bids[0].profile_id;
+    winningBidder = auction.bidders
+                    .filter((bidder) => {
+                        return bidder.id === winningBidderProfileId;
+                      })
+                    .map((winner) => {
+                      return {
+                        bid: winningBidAmt,
+                        first: winner.first,
+                        last: winner.last,
+                        email: winner.email
+                      };
+                    });
+  }
+  if (winningBidder) {
+    return winningBidder[0];
+  } else {
+    winningBidder = null;
+    return winningBidder;
+  }
+};
+
 const pg = {
   getAllAuctions: (cb) => {
     return models.Auction.collection()
@@ -174,20 +200,7 @@ const pg = {
       .then(auctionModels => {
         let auctions = auctionModels.toJSON();
         return auctions.map((auction) => {
-          let winningBidAmt = auction.bids[0].bid;
-          let winningBidderProfileId = auction.bids[0].profile_id;
-          let winningBidder = auction.bidders
-            .filter((bidder) => {
-                return bidder.id === winningBidderProfileId;
-              })
-            .map((winner) => {
-              return {
-                bid: winningBidAmt,
-                first: winner.first,
-                last: winner.last,
-                email: winner.email
-              };
-            });
+          let winningBidder = determineWinningBidder(auction);
           return {
             auction_id: auction.id,
             auctionTitle: auction.title,
