@@ -10,6 +10,9 @@ const Profile = db.Model.extend({
   },
   bids: function() {
     return this.hasMany('Bids');
+  },
+  auctionBids: function() {
+    return this.hasMany('Auctions').through('Bids', 'id', 'profile_id', 'auction_id', 'id');
   }
 
 });
