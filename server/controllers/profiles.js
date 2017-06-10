@@ -11,6 +11,53 @@ module.exports.getAll = (req, res) => {
     });
 };
 
+module.exports.getAuctionsByOwner = (profileId, cb) => {
+  console.log('getAuctionsByProfile: ', profileId);
+  models.Profile
+    .where({ id: profileId })
+    .fetch({
+      columns: ['id'],
+      withRelated: [{
+        'auctions': (qb) => {
+          qb.select('id', 'profile_id');
+        }
+      }]
+    })
+    .then(auctions => {
+      cb(null, auctions);
+    })
+    .catch(err => {
+      cb(err, null);
+    });
+};
+
+module.exports.getBiddedAuctions = (profileId, cb) => {
+  models.Profile
+    .where({ id: profileId })
+    .fetch({
+      withRelated: ['auctionBids']
+      // columns: ['id'],
+      // withRelated: [{
+      //   'bids' : (qb) => {
+      //      qb.select('id', 'profile_id', 'auction_id');
+      //   },
+      //   'auctionBids': (qb) => {
+      //     qb.select('id', 'profile_id');
+      //   }
+      // }]
+    })
+    .then(biddedAuctionsModel => {
+      let biddedAuctions = biddedAuctionsModel.toJSON();
+      let auctionIds = biddedAuctions.auctionBids.map((auction) => {
+        return auction.id;
+      });
+      cb(null, auctionIds);
+    })
+    .catch(err => {
+      cb(err, null);
+    });
+};
+
 // module.exports.create = (req, res) => {
 //   models.Profile.forge({ username: req.body.username, password: req.body.password })
 //     .save()
