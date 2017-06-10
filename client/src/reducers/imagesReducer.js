@@ -1,4 +1,4 @@
-import { SELECT_IMAGE } from '../actions/index';
+import { SELECT_IMAGE, DESELECT_IMAGE } from '../actions/index';
 
 export default (state = {}, action) => {
   switch (action.type) {
@@ -7,6 +7,8 @@ export default (state = {}, action) => {
         displayImage: action.payload.display,
         file: action.payload.file
       });
+    case DESELECT_IMAGE:
+      return {};
     default:
       return state;
   }

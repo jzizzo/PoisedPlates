@@ -7,6 +7,7 @@ export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 export const FETCH_BID = 'FETCH_BID';
 export const POST_BID = 'POST_BID';
 export const SELECT_IMAGE = 'SELECT_IMAGE';
+export const DESELECT_IMAGE = 'DESELECT_IMAGE';
 
 const ROOT_URL = 'http://localhost:3000/api';
 
@@ -66,3 +67,5 @@ export const selectImage = (display, file) => ({
     file: file
   }
 });
+
+export const deselectImage = () => ({ type: DESELECT_IMAGE });

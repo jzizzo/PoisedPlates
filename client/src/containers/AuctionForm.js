@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 /* * Actions * */
-import { postAuction, selectImage } from '../actions';
+import { postAuction, selectImage, deselectImage } from '../actions';
 
 /* * Styles * */
 import { Card, CardMedia } from 'material-ui/Card';
@@ -104,6 +104,7 @@ class AuctionForm extends Component {
             alert('Error uploading image, please try again.');
           });
 
+        this.props.deselectImage();
         // Post auction data to db
         this.props.postAuction(auctionData, () => {
           this.props.history.push('/');
@@ -286,6 +287,6 @@ const mapStateToProps = ({ images }) => {
 
 export default reduxForm({
   form: 'PostNewAuction'
-})(connect(mapStateToProps, { postAuction, selectImage })(AuctionForm));
+})(connect(mapStateToProps, { postAuction, selectImage, deselectImage })(AuctionForm));
 
 
