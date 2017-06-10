@@ -151,135 +151,135 @@ class AuctionForm extends Component {
     return (
       <div style={styles.outer} >
         <div style={styles.inner}>
-        <Card style={styles.card}>
-          <CardMedia>
-            <img src={this.props.selectedImage} />
-          </CardMedia>
-        </Card>
-        <form>
-          <RaisedButton
-            label="Choose an Image"
-            labelPosition="before"
-            style={styles.button}
-            containerElement="label"
-          >
-            <input
-              type="file"
-              accept="image/*"
-              style={styles.imageInput}
-              onChange={this.handleImages.bind(this)}
-            />
-          </RaisedButton>
-          {/*-- Photo --*/}
-          <div>
-            <Field
-              name="url"
-              component={TextField}
-              hintText="URL"
-              floatingLabelText="Photo"
-              validate={required}
-            />
-          </div>
-          {/*-- Category --*/}
-          <div>
-            <Field
-              name="category"
-              component={SelectField}
-              hintText="Category"
-              floatingLabelText="Category"
-              validate={required}
-            >
-              {categories.map((category, idx) => (
-                <MenuItem key={idx} value={category[0]} primaryText={category[1]} />
-              ))}
-            </Field>
-          </div>
-          {/*-- Title --*/}
-          <div>
-            <Field
-              name="title"
-              component={TextField}
-              hintText="What is it?"
-              floatingLabelText="Title"
-              validate={required}
-            />
-          </div>
-          {/*-- Description --*/}
-          <div>
-            <Field
-              name="description"
-              component={TextField}
-              hintText="What's cool about it?"
-              floatingLabelText="Description"
-              multiLine
-              rows={2}
-              validate={required}
-            />
-          </div>
-          {/*-- Location --*/}
-          <div>
-            <Field
-              name="city"
-              component={TextField}
-              hintText="City"
-              floatingLabelText="City"
-              validate={required}
-              style={styles.align}
-            />
-            <Field
-              name="state"
-              component={SelectField}
-              hintText="State"
-              floatingLabelText="State"
-              validate={required}
-              style={styles.state}
-            >
-              {states.map((state, idx) => (
-                <MenuItem key={idx} value={state} primaryText={state} />
-              ))}
-            </Field>
-          </div>
-          {/*-- End Time --*/}
-          <div>
-            <Field
-              name="date"
-              component={DatePicker}
-              format={null}
-              hintText="End Date"
-              validate={required}
-              style={styles.align}
-            />
-            {
-              // <Field
-              //           name="time"
-              //           component={TimePicker}
-              //           format={null}
-              //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
-              //           // and redux-form defaults to ''
-              //           hintText="End Time"
-              //           validate={required}
-              //           style={styles.align}
-              //         />
-                    }
-          </div>
-
-          <div>
+          <Card style={styles.card}>
+            <CardMedia>
+              <img src={this.props.selectedImage} />
+            </CardMedia>
+          </Card>
+          <form>
             <RaisedButton
-              label="Submit"
-              primary={true}
-              onClick={handleSubmit(this.onSubmit.bind(this))}
+              label="Choose an Image"
+              labelPosition="before"
               style={styles.button}
-            />
-            <Link to="/">
+              containerElement="label"
+            >
+              <input
+                type="file"
+                accept="image/*"
+                style={styles.imageInput}
+                onChange={this.handleImages.bind(this)}
+              />
+            </RaisedButton>
+            {/*-- Photo --*/}
+            <div>
+              <Field
+                name="url"
+                component={TextField}
+                hintText="URL"
+                floatingLabelText="Photo"
+                validate={required}
+              />
+            </div>
+            {/*-- Category --*/}
+            <div>
+              <Field
+                name="category"
+                component={SelectField}
+                hintText="Category"
+                floatingLabelText="Category"
+                validate={required}
+              >
+                {categories.map((category, idx) => (
+                  <MenuItem key={idx} value={category[0]} primaryText={category[1]} />
+                ))}
+              </Field>
+            </div>
+            {/*-- Title --*/}
+            <div>
+              <Field
+                name="title"
+                component={TextField}
+                hintText="What is it?"
+                floatingLabelText="Title"
+                validate={required}
+              />
+            </div>
+            {/*-- Description --*/}
+            <div>
+              <Field
+                name="description"
+                component={TextField}
+                hintText="What's cool about it?"
+                floatingLabelText="Description"
+                multiLine
+                rows={2}
+                validate={required}
+              />
+            </div>
+            {/*-- Location --*/}
+            <div>
+              <Field
+                name="city"
+                component={TextField}
+                hintText="City"
+                floatingLabelText="City"
+                validate={required}
+                style={styles.align}
+              />
+              <Field
+                name="state"
+                component={SelectField}
+                hintText="State"
+                floatingLabelText="State"
+                validate={required}
+                style={styles.state}
+              >
+                {states.map((state, idx) => (
+                  <MenuItem key={idx} value={state} primaryText={state} />
+                ))}
+              </Field>
+            </div>
+            {/*-- End Time --*/}
+            <div>
+              <Field
+                name="date"
+                component={DatePicker}
+                format={null}
+                hintText="End Date"
+                validate={required}
+                style={styles.align}
+              />
+              {
+                // <Field
+                //           name="time"
+                //           component={TimePicker}
+                //           format={null}
+                //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
+                //           // and redux-form defaults to ''
+                //           hintText="End Time"
+                //           validate={required}
+                //           style={styles.align}
+                //         />
+                      }
+            </div>
+
+            <div>
               <RaisedButton
-                label="Cancel"
-                secondary={true}
-                onClick={reset}
+                label="Submit"
+                primary={true}
+                onClick={handleSubmit(this.onSubmit.bind(this))}
                 style={styles.button}
               />
-            </Link>
-          </div>
-        </form>
+              <Link to="/">
+                <RaisedButton
+                  label="Cancel"
+                  secondary={true}
+                  onClick={reset}
+                  style={styles.button}
+                />
+              </Link>
+            </div>
+          </form>
         </div>
       </div>
     );
