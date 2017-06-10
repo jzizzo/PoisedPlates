@@ -68,18 +68,16 @@ class AuctionForm extends Component {
   }
 
   handleImages(e) {
-    let path = e.target.files[0];
-    console.log('--PATH--', path);
-    console.log('name and type', path.name, path.type)
+    let image = e.target.files[0];
     const reader = new FileReader();
-    reader.onload = (e) => this.props.selectImage(e.target.result, path);
+    reader.onload = (e) => this.props.selectImage(e.target.result, image);
     reader.readAsDataURL(e.target.files[0]);
   }
 
   formatData(response) {
     let fd = new FormData();
     fd.append('key', response.data.params.key);
-    fd.append('file', this.props.imagePath);
+    fd.append('file', this.props.file);
     fd.append('policy', response.data.params.policy);
     fd.append('x-amz-algorithm', response.data.params['x-amz-algorithm']);
     fd.append('x-amz-credential', response.data.params['x-amz-credential']);
@@ -91,7 +89,7 @@ class AuctionForm extends Component {
   onSubmit(values) {
     // let s3ImageLocation;
 
-    axios.get('http://localhost:3000/s3', { params: { name: this.props.imagePath.name, type: this.props.imagePath.type } })
+    axios.get('http://localhost:3000/s3', { params: { name: this.props.file.name, type: this.props.file.type } })
       .then((response) => {
         console.log('RESPONSE', response);
 
@@ -155,7 +153,7 @@ class AuctionForm extends Component {
         <div style={styles.inner}>
           <Card style={styles.card}>
             <CardMedia>
-              <img src={this.props.selectedImage} />
+              <img src={this.props.displayImage} />
             </CardMedia>
           </Card>
           <form>
@@ -290,8 +288,8 @@ class AuctionForm extends Component {
 
 const mapStateToProps = ({ images }) => {
   return {
-    selectedImage: images.selectedImage,
-    imagePath: images.imagePath
+    displayImage: images.displayImage,
+    file: images.file
   };
 };
 

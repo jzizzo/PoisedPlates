@@ -59,4 +59,10 @@ export const postBid = (id, bid) => {
   };
 };
 
-export const selectImage = (image, path) => ({ type: SELECT_IMAGE, payload: [image, path] });
+export const selectImage = (display, file) => ({
+  type: SELECT_IMAGE,
+  payload: {
+    display: display,
+    file: file
+  }
+});
