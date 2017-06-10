@@ -1,25 +1,8 @@
 'use strict';
 const express = require('express');
 const router = express.Router();
-const middleware = require('../middleware');
 const crypto = require('crypto');
 const config = require('config')['aws'];
-
-// // crypto helpers
-// const hmac = (key, value) => crypto.createHmac('sha256', key).update(value).digest();
-// const hexhmac = (key, value) => crypto.createHmac('sha256', key).update(value).digest('hex');
-
-// // routes
-// router.use((req, res) => {
-//   const timestamp = req.query.datetime.substr(0, 8);
-
-//   const date = hmac('AWS4' + process.env.AWS_SECRET || config.AWS_SECRET, timestamp);
-//   const region = hmac(date, process.env.AWS_REGION || 'us-west-2');
-//   const service = hmac(region, process.env.AWS_SERVICE || 's3');
-//   const signing = hmac(service, 'aws4_request');
-
-//   res.send(hexhmac(signing, req.query.to_sign));
-// })
 
 const s3Config = {};
 s3Config.accessKey = process.env.AWS_KEY || config.KEY;
@@ -27,15 +10,16 @@ s3Config.secretKey = process.env.AWS_SECRET || config.SECRET;
 s3Config.bucket = process.env.S3_BUCKET || config.S3_BUCKET;
 s3Config.region = process.env.S3_REGION || 'us-west-2';
 
+
 router.route('/')
-  .get((request, response) => {
-    if (true) {
-      var filename =
-        crypto.randomBytes(16).toString('hex') +
-        path.extname('test');
-      response.json(s3Credentials(s3Config, {filename: 'test2', contentType: 'image/png'}));
+  .get((req, res) => {
+    if (req.query.name) {
+      res.json(s3Credentials(s3Config, {
+        filename: req.query.name,
+        contentType: req.query.type
+      }));
     } else {
-      response.status(400).send('filename is required');
+      res.status(400).send('filename is required');
     }
   });
 
