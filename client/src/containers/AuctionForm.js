@@ -2,26 +2,24 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
 /* * Utils * */
+import axios from 'axios';
 import { Link } from 'react-router-dom';
 import { Field, reduxForm, formValueSelector } from 'redux-form';
 
 /* * Actions * */
-import { postAuction } from '../actions';
+import { postAuction, selectImage } from '../actions';
 
 /* * Styles * */
+import { Card, CardMedia } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
 import MenuItem from 'material-ui/MenuItem';
-import {AutoComplete as MUIAutoComplete} from 'material-ui';
+import { AutoComplete as MUIAutoComplete } from 'material-ui';
 import {
   AutoComplete,
-  Checkbox,
   DatePicker,
   TimePicker,
-  RadioButtonGroup,
   SelectField,
-  Slider,
-  TextField,
-  Toggle,
+  TextField
 } from 'redux-form-material-ui';
 
 const states = [
@@ -69,26 +67,80 @@ class AuctionForm extends Component {
       // .focus(); // on TextField
   }
 
+  handleImages(e) {
+    let path = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = (e) => this.props.selectImage(e.target.result, path);
+    reader.readAsDataURL(e.target.files[0]);
+  }
+
+  formatData(response) {
+    let fd = new FormData();
+    fd.append('key', response.data.params.key);
+    fd.append('file', this.props.imagePath);
+    fd.append('policy', response.data.params.policy);
+    fd.append('x-amz-algorithm', response.data.params['x-amz-algorithm']);
+    fd.append('x-amz-credential', response.data.params['x-amz-credential']);
+    fd.append('x-amz-date', response.data.params['x-amz-date']);
+    fd.append('x-amz-signature', response.data.params['x-amz-signature']);
+    return fd;
+  }
+
   onSubmit(values) {
+    // let s3ImageLocation;
+
+    axios.get('http://localhost:3000/s3')
+      .then((response) => {
+        console.log('RESPONSE', JSON.stringify(response));
+
+        const fd = this.formatData(response);
+        // s3ImageLocation = `${response.data.endpoint_url}/${response.data.params.key}`;
+        axios.post(response.data.endpoint_url, fd)
+          .then((awsResponse) => {
+            console.log('image at:'); // change this
+          })
+          .catch((err) => {
+            alert('Error uploading image, please try again.');
+          });
+      });
+
     // this needs to get changed in the future, but this matches what the API is expecting, an array full of images.
 
     this.props.postAuction(values, () => {
       this.props.history.push('/');
     });
-
-
-
-
   }
 
   render() {
-    const {handleSubmit, pristine, reset, submitting} = this.props;
+    const { handleSubmit, pristine, reset, submitting } = this.props;
     const styles = {
+      outer: {
+        padding: '5rem'
+      },
+      inner: {
+        margin: 'auto',
+        width: '100%',
+        height: '100%'
+      },
       align: {
         verticalAlign: 'bottom'
       },
       button: {
         margin: 8
+      },
+      imageInput: {
+        cursor: 'pointer',
+        position: 'absolute',
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        width: '100%',
+        opacity: 0,
+      },
+      card: {
+        // height: 300,
+        width: '80%'
       },
       state: {
         marginLeft: 16,
@@ -97,126 +149,152 @@ class AuctionForm extends Component {
       }
     }
     return (
-      <form>
-        {/*-- Photo --*/}
-        <div>
-          <Field
-            name="url"
-            component={TextField}
-            hintText="URL"
-            floatingLabelText="Photo"
-            validate={required}
-          />
-        </div>
-        {/*-- Category --*/}
-        <div>
-          <Field
-            name="category"
-            component={SelectField}
-            hintText="Category"
-            floatingLabelText="Category"
-            validate={required}
-          >
-            {categories.map((category, idx) => (
-              <MenuItem key={idx} value={category[0]} primaryText={category[1]} />
-            ))}
-          </Field>
-        </div>
-        {/*-- Title --*/}
-        <div>
-          <Field
-            name="title"
-            component={TextField}
-            hintText="What is it?"
-            floatingLabelText="Title"
-            validate={required}
-          />
-        </div>
-        {/*-- Description --*/}
-        <div>
-          <Field
-            name="description"
-            component={TextField}
-            hintText="What's cool about it?"
-            floatingLabelText="Description"
-            multiLine
-            rows={2}
-            validate={required}
-          />
-        </div>
-        {/*-- Location --*/}
-        <div>
-          <Field
-            name="city"
-            component={TextField}
-            hintText="City"
-            floatingLabelText="City"
-            validate={required}
-            style={styles.align}
-          />
-          <Field
-            name="state"
-            component={SelectField}
-            hintText="State"
-            floatingLabelText="State"
-            validate={required}
-            style={styles.state}
-          >
-            {states.map((state, idx) => (
-              <MenuItem key={idx} value={state} primaryText={state} />
-            ))}
-          </Field>
-        </div>
-        {/*-- End Time --*/}
-        <div>
-          <Field
-            name="date"
-            component={DatePicker}
-            format={null}
-            hintText="End Date"
-            validate={required}
-            style={styles.align}
-          />
-          {
-            // <Field
-            //           name="time"
-            //           component={TimePicker}
-            //           format={null}
-            //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
-            //           // and redux-form defaults to ''
-            //           hintText="End Time"
-            //           validate={required}
-            //           style={styles.align}
-            //         />
-                  }
-        </div>
-
-        <div>
+      <div style={styles.outer} >
+        <div style={styles.inner}>
+        <Card style={styles.card}>
+          <CardMedia>
+            <img src={this.props.selectedImage} />
+          </CardMedia>
+        </Card>
+        <form>
           <RaisedButton
-            label="Submit"
-            primary={true}
-            onClick={handleSubmit(this.onSubmit.bind(this))}
+            label="Choose an Image"
+            labelPosition="before"
             style={styles.button}
-          />
-          <Link to="/">
+            containerElement="label"
+          >
+            <input
+              type="file"
+              accept="image/*"
+              style={styles.imageInput}
+              onChange={this.handleImages.bind(this)}
+            />
+          </RaisedButton>
+          {/*-- Photo --*/}
+          <div>
+            <Field
+              name="url"
+              component={TextField}
+              hintText="URL"
+              floatingLabelText="Photo"
+              validate={required}
+            />
+          </div>
+          {/*-- Category --*/}
+          <div>
+            <Field
+              name="category"
+              component={SelectField}
+              hintText="Category"
+              floatingLabelText="Category"
+              validate={required}
+            >
+              {categories.map((category, idx) => (
+                <MenuItem key={idx} value={category[0]} primaryText={category[1]} />
+              ))}
+            </Field>
+          </div>
+          {/*-- Title --*/}
+          <div>
+            <Field
+              name="title"
+              component={TextField}
+              hintText="What is it?"
+              floatingLabelText="Title"
+              validate={required}
+            />
+          </div>
+          {/*-- Description --*/}
+          <div>
+            <Field
+              name="description"
+              component={TextField}
+              hintText="What's cool about it?"
+              floatingLabelText="Description"
+              multiLine
+              rows={2}
+              validate={required}
+            />
+          </div>
+          {/*-- Location --*/}
+          <div>
+            <Field
+              name="city"
+              component={TextField}
+              hintText="City"
+              floatingLabelText="City"
+              validate={required}
+              style={styles.align}
+            />
+            <Field
+              name="state"
+              component={SelectField}
+              hintText="State"
+              floatingLabelText="State"
+              validate={required}
+              style={styles.state}
+            >
+              {states.map((state, idx) => (
+                <MenuItem key={idx} value={state} primaryText={state} />
+              ))}
+            </Field>
+          </div>
+          {/*-- End Time --*/}
+          <div>
+            <Field
+              name="date"
+              component={DatePicker}
+              format={null}
+              hintText="End Date"
+              validate={required}
+              style={styles.align}
+            />
+            {
+              // <Field
+              //           name="time"
+              //           component={TimePicker}
+              //           format={null}
+              //           // Do we need this?  defaultValue={null} // TimePicker requires an object,
+              //           // and redux-form defaults to ''
+              //           hintText="End Time"
+              //           validate={required}
+              //           style={styles.align}
+              //         />
+                    }
+          </div>
+
+          <div>
             <RaisedButton
-              label="Cancel"
-              secondary={true}
-              onClick={reset}
+              label="Submit"
+              primary={true}
+              onClick={handleSubmit(this.onSubmit.bind(this))}
               style={styles.button}
             />
-          </Link>
+            <Link to="/">
+              <RaisedButton
+                label="Cancel"
+                secondary={true}
+                onClick={reset}
+                style={styles.button}
+              />
+            </Link>
+          </div>
+        </form>
         </div>
-      </form>
+      </div>
     );
   }
 }
 
+const mapStateToProps = ({ images }) => {
+  return {
+    selectedImage: images.selectedImage,
+    imagePath: images.imagePath
+  };
+};
 
 export default reduxForm({
   form: 'PostNewAuction'
-})(
-  connect(null,{ postAuction })(AuctionForm)
-);
+})(connect(mapStateToProps, { postAuction, selectImage })(AuctionForm));
 
 

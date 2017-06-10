@@ -6,6 +6,7 @@ export const POST_AUCTION = 'post_auction';
 export const TOGGLE_MODAL = 'TOGGLE_MODAL';
 export const FETCH_BID = 'FETCH_BID';
 export const POST_BID = 'POST_BID';
+export const SELECT_IMAGE = 'SELECT_IMAGE';
 
 const ROOT_URL = 'http://localhost:3000/api';
 
@@ -57,3 +58,5 @@ export const postBid = (id, bid) => {
     payload: bid
   };
 };
+
+export const selectImage = (image, path) => ({ type: SELECT_IMAGE, payload: [image, path] });

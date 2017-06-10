@@ -1,34 +1,25 @@
 'use strict';
 const express = require('express');
-const path = require('path');
-const middleware = require('./middleware');
-const routes = require('./routes/index');
-
-const app = express();
-
-const auctionWorker = require('../workers/auctions/endingAuctions.js');
-
-app.use(middleware.morgan('dev'));
-app.use(middleware.cookieParser());
-app.use(middleware.bodyParser.urlencoded({extended: false}));
-app.use(middleware.bodyParser.json());
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
-
-app.use(middleware.auth.session);
-app.use(middleware.passport.initialize());
-app.use(middleware.passport.session());
-app.use(middleware.flash());
-
-app.use(express.static(path.join(__dirname, '../public')));
-
-app.use('/', routes.auth);
-app.use('/api', routes.api);
-app.use('/api/profiles', routes.profiles);
-
-
+const router = express.Router();
+const middleware = require('../middleware');
 const crypto = require('crypto');
 const config = require('config')['aws'];
+
+// // crypto helpers
+// const hmac = (key, value) => crypto.createHmac('sha256', key).update(value).digest();
+// const hexhmac = (key, value) => crypto.createHmac('sha256', key).update(value).digest('hex');
+
+// // routes
+// router.use((req, res) => {
+//   const timestamp = req.query.datetime.substr(0, 8);
+
+//   const date = hmac('AWS4' + process.env.AWS_SECRET || config.AWS_SECRET, timestamp);
+//   const region = hmac(date, process.env.AWS_REGION || 'us-west-2');
+//   const service = hmac(region, process.env.AWS_SERVICE || 's3');
+//   const signing = hmac(service, 'aws4_request');
+
+//   res.send(hexhmac(signing, req.query.to_sign));
+// })
 
 const s3Config = {};
 s3Config.accessKey = process.env.AWS_KEY || config.KEY;
@@ -36,12 +27,13 @@ s3Config.secretKey = process.env.AWS_SECRET || config.SECRET;
 s3Config.bucket = process.env.S3_BUCKET || config.S3_BUCKET;
 s3Config.region = process.env.S3_REGION || 'us-west-2';
 
-app.get('/s3', (request, response) => {
+router.route('/')
+  .get((request, response) => {
     if (true) {
       var filename =
         crypto.randomBytes(16).toString('hex') +
         path.extname('test');
-      response.json(s3Credentials(s3Config, {filename: 'test', contentType: 'image/png'}));
+      response.json(s3Credentials(s3Config, {filename: 'test2', contentType: 'image/png'}));
     } else {
       response.status(400).send('filename is required');
     }
@@ -125,8 +117,4 @@ function s3UploadSignature(config, policyBase64, credential) {
   return hmac(signingKey, policyBase64).toString('hex');
 }
 
-app.get('/*', (req, res) => {
-  res.render('index.ejs', {user: req.user ? req.user : null});
-});
-
-module.exports = app;
+module.exports = router;
