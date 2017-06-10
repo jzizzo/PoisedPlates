@@ -87,28 +87,28 @@ class AuctionForm extends Component {
   }
 
   onSubmit(values) {
-    // let s3ImageLocation;
-
+    // Get AWS signature
     axios.get('http://localhost:3000/s3', { params: { name: this.props.file.name, type: this.props.file.type } })
       .then((response) => {
-        console.log('RESPONSE', response);
-
+        // Format S3 data and add new image url to auction data
         const fd = this.formatData(response);
-        // s3ImageLocation = `${response.data.endpoint_url}/${response.data.params.key}`;
+        let s3Url = `${response.data.endpoint_url}/${response.data.params.key.split(' ').join('+')}`;
+        let auctionData = Object.assign({}, values, { url: s3Url });
+
+        // Post file with signature
         axios.post(response.data.endpoint_url, fd)
           .then((awsResponse) => {
-            console.log('image at:', awsResponse); // change this
+            console.log('Image(s) uploaded.');
           })
           .catch((err) => {
             alert('Error uploading image, please try again.');
           });
+
+        // Post auction data to db
+        this.props.postAuction(auctionData, () => {
+          this.props.history.push('/');
+        });
       });
-
-    // this needs to get changed in the future, but this matches what the API is expecting, an array full of images.
-
-    this.props.postAuction(values, () => {
-      this.props.history.push('/');
-    });
   }
 
   render() {
@@ -157,6 +157,7 @@ class AuctionForm extends Component {
             </CardMedia>
           </Card>
           <form>
+            {/*-- Photo --*/}
             <RaisedButton
               label="Choose an Image"
               labelPosition="before"
@@ -170,16 +171,6 @@ class AuctionForm extends Component {
                 onChange={this.handleImages.bind(this)}
               />
             </RaisedButton>
-            {/*-- Photo --*/}
-            <div>
-              <Field
-                name="url"
-                component={TextField}
-                hintText="URL"
-                floatingLabelText="Photo"
-                validate={required}
-              />
-            </div>
             {/*-- Category --*/}
             <div>
               <Field
