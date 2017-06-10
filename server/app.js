@@ -37,11 +37,11 @@ s3Config.bucket = process.env.S3_BUCKET || config.S3_BUCKET;
 s3Config.region = process.env.S3_REGION || 'us-west-2';
 
 app.get('/s3', (request, response) => {
-    if (true) {
-      var filename =
-        crypto.randomBytes(16).toString('hex') +
-        path.extname('test');
-      response.json(s3Credentials(s3Config, {filename: 'test', contentType: 'image/png'}));
+    if (request.query.name) {
+      response.json(s3Credentials(s3Config, {
+        filename: request.query.name,
+        contentType: request.query.type
+      }));
     } else {
       response.status(400).send('filename is required');
     }

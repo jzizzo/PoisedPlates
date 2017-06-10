@@ -69,6 +69,8 @@ class AuctionForm extends Component {
 
   handleImages(e) {
     let path = e.target.files[0];
+    console.log('--PATH--', path);
+    console.log('name and type', path.name, path.type)
     const reader = new FileReader();
     reader.onload = (e) => this.props.selectImage(e.target.result, path);
     reader.readAsDataURL(e.target.files[0]);
@@ -89,15 +91,15 @@ class AuctionForm extends Component {
   onSubmit(values) {
     // let s3ImageLocation;
 
-    axios.get('http://localhost:3000/s3')
+    axios.get('http://localhost:3000/s3', { params: { name: this.props.imagePath.name, type: this.props.imagePath.type } })
       .then((response) => {
-        console.log('RESPONSE', JSON.stringify(response));
+        console.log('RESPONSE', response);
 
         const fd = this.formatData(response);
         // s3ImageLocation = `${response.data.endpoint_url}/${response.data.params.key}`;
         axios.post(response.data.endpoint_url, fd)
           .then((awsResponse) => {
-            console.log('image at:'); // change this
+            console.log('image at:', awsResponse); // change this
           })
           .catch((err) => {
             alert('Error uploading image, please try again.');
