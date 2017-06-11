@@ -13,7 +13,7 @@ export default class SubmitAuction extends Component {
         justifyContent: 'center'
       }
     }
-    console.log(this.props)
+
     return (
       <div style={styles.outer} >
         <AuctionForm

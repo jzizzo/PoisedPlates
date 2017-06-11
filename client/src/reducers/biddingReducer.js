@@ -1,6 +1,4 @@
-import { TOGGLE_MODAL } from '../actions/index';
-import { FETCH_BID } from '../actions/index';
-import { POST_BID } from '../actions/index';
+import { TOGGLE_MODAL, FETCH_BID, POST_BID } from '../actions/index';
 
 const initialState = {
   modal: false,
