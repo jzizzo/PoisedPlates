@@ -10,7 +10,7 @@ export const SELECT_IMAGE = 'SELECT_IMAGE';
 export const DESELECT_IMAGE = 'DESELECT_IMAGE';
 
 export function fetchAuctions() {
-  const request = axios.get('api/auctions');
+  const request = axios.get('/api/auctions');
 
   return {
     type: FETCH_AUCTIONS,
@@ -19,7 +19,7 @@ export function fetchAuctions() {
 }
 
 export function postAuction(values, callback) {
-  const request = axios.post('api/auction', values)
+  const request = axios.post('/api/auction', values)
     .then(() => callback());
 
   return {
@@ -29,7 +29,7 @@ export function postAuction(values, callback) {
 }
 
 export function fetchAuction(id) {
-  const request = axios.get('api/auction/${id}');
+  const request = axios.get('/api/auction/${id}');
 
   return {
     type: FETCH_AUCTION,
@@ -40,7 +40,7 @@ export function fetchAuction(id) {
 export const toggleModal = () => ({ type: TOGGLE_MODAL });
 
 export const fetchBid = (id) => (
-  axios.get('api/auction/${id}/currentBid')
+  axios.get('/api/auction/${id}/currentBid')
     .then(data => {
       return {
         type: FETCH_BID,
