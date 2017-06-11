@@ -29,7 +29,7 @@ export function postAuction(values, callback) {
 }
 
 export function fetchAuction(id) {
-  const request = axios.get('/api/auction/${id}');
+  const request = axios.get(`/api/auction/${id}`);
 
   return {
     type: FETCH_AUCTION,
@@ -40,7 +40,7 @@ export function fetchAuction(id) {
 export const toggleModal = () => ({ type: TOGGLE_MODAL });
 
 export const fetchBid = (id) => (
-  axios.get('/api/auction/${id}/currentBid')
+  axios.get(`/api/auction/${id}/currentBid`)
     .then(data => {
       return {
         type: FETCH_BID,
@@ -50,7 +50,7 @@ export const fetchBid = (id) => (
 );
 
 export const postBid = (id, bid) => {
-  axios.post('/auction/${id}', { amt: bid });
+  axios.post(`/api/auction/${id}`, { amt: bid });
 
   return {
     type: POST_BID,
