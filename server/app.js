@@ -4,7 +4,7 @@ const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes/index');
 
-const config = require('config')['knex'];
+const config = require('config');
 console.log('NODE_ENV: ' + config.util.getEnv('NODE_ENV'));
 console.log('config: ', config);
 
