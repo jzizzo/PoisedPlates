@@ -4,6 +4,10 @@ const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes/index');
 
+const config = require('config')['knex'];
+console.log('NODE_ENV: ' + config.util.getEnv('NODE_ENV'));
+console.log('config: ', config);
+
 const app = express();
 
 // const auctionWorker = require('../workers/auctions/endingAuctions.js');

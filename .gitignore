@@ -1,6 +1,7 @@
 ### node etc ###
 
 yarn.lock
+.yarn-cache.tgz
 
 .DS_Store
 
