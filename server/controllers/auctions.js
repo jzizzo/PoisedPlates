@@ -211,6 +211,7 @@ module.exports.retrieveAndUpdateEndingAuctions = (currentTime, cb) => {
 };
 
 module.exports.getAuctionByProfileId = (profileId, cb) => {
+  console.log('auction/controler>>', profileId)
   return models.Auction
     .where({ profile_id: profileId })
     .fetch({
