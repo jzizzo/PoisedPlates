@@ -1,3 +1,5 @@
-const config = require('config');
+const config = require('config')['knex'];
 
-module.exports = config['knex'];
+console.log("config['knex']: ", config);
+
+module.exports = config;
