@@ -27,7 +27,7 @@ const LoggedIn = () => (
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <MenuItem primaryText="My Profile" />
+    <Link to="/myaccount" ><MenuItem primaryText="My Account" /></Link>
     <a href="/logout" ><MenuItem primaryText="Sign out" /></a>
   </IconMenu>
 );
@@ -64,7 +64,7 @@ export default class Nav extends Component {
           />
         </MuiThemeProvider>
         <MuiThemeProvider>
-          <Link to='/auction'>
+          <Link to="/auction">
             <FloatingActionButton
               style={styles.fab}
               backgroundColor={tealA700}
