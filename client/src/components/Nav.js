@@ -27,8 +27,12 @@ const LoggedIn = () => (
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
     anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
-    <Link to="/myaccount" ><MenuItem primaryText="My Account" /></Link>
-    <a href="/logout" ><MenuItem primaryText="Sign out" /></a>
+    <Link to="/myaccount" style={styles.links} >
+      <MenuItem primaryText="My Account" />
+    </Link>
+    <a href="/logout" style={styles.links} >
+      <MenuItem primaryText="Sign out" />
+    </a>
   </IconMenu>
 );
 
@@ -40,6 +44,9 @@ const styles = {
     cursor: 'pointer',
     textDecoration: 'none',
     color: '#FFF'
+  },
+  links: {
+    textDecoration: 'none'
   },
   fab: {
     margin: 0,
