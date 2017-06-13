@@ -8,6 +8,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
+import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/MenuItem';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -66,6 +67,24 @@ export default class Nav extends Component {
         <MuiThemeProvider>
           <AppBar
             title={<Link to="/" style={styles.title}>Toss.it</Link>}
+            iconElementLeft={
+              <IconMenu
+                iconButtonElement={
+                  <IconButton>
+                    <ContentFilter color={grey50}/>
+                  </IconButton>
+                }
+                onChange={()=>{}}
+                value={1}
+              >
+                <MenuItem value="1" primaryText="Blu-ray" />
+                <MenuItem value="2" primaryText="Cassette" />
+                <MenuItem value="3" primaryText="CD" />
+                <MenuItem value="4" primaryText="DVD Audio" />
+                <MenuItem value="5" primaryText="Hybrid SACD" />
+                <MenuItem value="6" primaryText="Vinyl" />
+              </IconMenu>
+            }
             iconElementRight={<LoggedIn />}
             style={styles.nav}
           />
