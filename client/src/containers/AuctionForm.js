@@ -88,7 +88,7 @@ class AuctionForm extends Component {
 
   onSubmit(values) {
     // Get AWS signature
-    axios.get('http://localhost:3000/s3', { params: { name: this.props.file.name, type: this.props.file.type } })
+    axios.get('/s3', { params: { name: this.props.file.name, type: this.props.file.type } })
       .then((response) => {
         // Format S3 data and add new image url to auction data
         const fd = this.formatData(response);
