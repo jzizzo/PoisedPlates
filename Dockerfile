@@ -29,4 +29,7 @@ RUN cd /opt/app && yarn run compile
 WORKDIR /opt/app
 
 CMD ["yarn", "start-docker"]
-EXPOSE 3000
+
+# docker run -ti --rm 2094 /opt/app
+# docker exec -ti fe88e4fbdd25 psql -U postgres
+# DATABASE_URL: postgres://username:pgpassword@db:5432/mydatabase

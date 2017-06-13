@@ -8,7 +8,7 @@
     "build": "webpack --watch",
     "test": "jest --coverage",
     "compile": "webpack --config webpack.config.babel.js",
-    "dockerInit": "NODE_ENV=production knex migrate:rollback knex migrate:latest knex seed:run"
+    "dockerInit": "knex migrate:latest && knex seed:run && node server"
   },
   "jest": {
     "testPathIgnorePatterns": [

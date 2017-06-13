@@ -59,6 +59,7 @@ router.get('/auth/google/callback', middleware.passport.authenticate('google', {
 }));
 
 router.get('/auth/facebook', middleware.passport.authenticate('facebook', {
+  // callbackURL: "/auth/facebook/callback",
   scope: ['public_profile', 'email']
 }));
 
