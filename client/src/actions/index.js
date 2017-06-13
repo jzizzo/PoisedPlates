@@ -8,9 +8,13 @@ export const FETCH_BID = 'FETCH_BID';
 export const POST_BID = 'POST_BID';
 export const SELECT_IMAGE = 'SELECT_IMAGE';
 export const DESELECT_IMAGE = 'DESELECT_IMAGE';
+export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
+export const CHANGE_CATEGORY = 'CHANGE_CATEGORY';
 
-export function fetchAuctions() {
-  const request = axios.get('/api/auctions');
+export function fetchAuctions(categoryId) {
+  const request = categoryId === 'all' ?
+    axios.get('/api/auctions') :
+    axios.get(`/api/category/${categoryId}`);
 
   return {
     type: FETCH_AUCTIONS,
@@ -67,3 +71,17 @@ export const selectImage = (display, file) => ({
 });
 
 export const deselectImage = () => ({ type: DESELECT_IMAGE });
+
+export const fetchCategories = () => {
+  const request = axios.get('api/categories');
+
+  return {
+    type: FETCH_CATEGORIES,
+    payload: request
+  };
+};
+
+export const changeCategory = (id) => ({
+  type: CHANGE_CATEGORY,
+  payload: id
+})

@@ -62,6 +62,14 @@ router.route('/categories')
     });
   });
 
+router.route('/category/:id')
+  .get((req, res) => {
+    AuctionsController.getAuctionsByCategory(req.params.id, (err, auctions) => {
+      if (err) console.log('Error fetching auctions by category:', err);
+      res.status(200).send(auctions);
+    });
+  });
+
 router.route('/auction')
   .post(middleware.auth.verify, (req, res) => {
     const options = Object.assign({}, req.body, req.session.passport);

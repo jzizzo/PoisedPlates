@@ -2,12 +2,17 @@ import React, { Component } from 'react';
 
 /* * Utils * */
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+/* * Actions * */
+import { fetchCategories, changeCategory, fetchAuctions } from '../actions';
 
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import AppBar from 'material-ui/AppBar';
 import IconMenu from 'material-ui/IconMenu';
 import IconButton from 'material-ui/IconButton';
+import ContentFilter from 'material-ui/svg-icons/content/filter-list';
 import MoreVertIcon from 'material-ui/svg-icons/navigation/more-vert';
 import MenuItem from 'material-ui/MenuItem';
 import FloatingActionButton from 'material-ui/FloatingActionButton';
@@ -59,13 +64,39 @@ const styles = {
   }
 };
 
-export default class Nav extends Component {
+class Nav extends Component {
+  componentDidMount() {
+    this.props.fetchCategories()
+  }
+
+  handleChange(e, value) {
+    this.props.changeCategory(value);
+    this.props.fetchAuctions(value);
+  }
+
   render() {
     return (
       <div>
         <MuiThemeProvider>
           <AppBar
             title={<Link to="/" style={styles.title}>Toss.it</Link>}
+            iconElementLeft={
+              <IconMenu
+                iconButtonElement={
+                  <IconButton>
+                    <ContentFilter color={grey50}/>
+                  </IconButton>
+                }
+                onChange={this.handleChange.bind(this)}
+                value={this.props.showing}
+                menuStyle={{maxHeight: 300}}
+              >
+                <MenuItem key="all" value="all" primaryText="All" />
+                {this.props.categories.map(category => (
+                  <MenuItem key={category.id} value={category.id} primaryText={category.name} />
+                ))}
+              </IconMenu>
+            }
             iconElementRight={<LoggedIn />}
             style={styles.nav}
           />
@@ -84,3 +115,12 @@ export default class Nav extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ categories }) => {
+  return {
+    categories: categories.categories,
+    showing: categories.showing
+  };
+};
+
+export default connect(mapStateToProps, { fetchCategories, changeCategory, fetchAuctions })(Nav);
