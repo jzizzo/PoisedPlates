@@ -5,6 +5,7 @@ import biddingReducer from './biddingReducer';
 import imagesReducer from './imagesReducer';
 import categoryReducer from './categoryReducer';
 import profileReducer from './profileReducer';
+import searchReducer from './reducer_queries';
 
 const rootReducer = combineReducers({
   form: formReducer,
@@ -12,8 +13,8 @@ const rootReducer = combineReducers({
   bidding: biddingReducer,
   images: imagesReducer,
   categories: categoryReducer,
-  profile: profileReducer
-
+  profile: profileReducer,
+  search: searchReducer
 });
 
 export default rootReducer;
