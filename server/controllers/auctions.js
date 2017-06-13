@@ -75,6 +75,31 @@ module.exports.getAuctionById = (auctionId, cb) => {
     });
 };
 
+module.exports.getAuctionsByCategory = (categoryId, cb) => {
+  return models.Auction
+    .where({ category_id: categoryId })
+    .fetchAll({
+      columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
+      withRelated: [{
+        'images': (qb) => {
+          qb.select('auction_id', 'url');
+        },
+        'location': (qb) => {
+          qb.select('id', 'city', 'state');
+        },
+        'category': (qb) => {
+          qb.select('id', 'name');
+        }
+      }]
+    })
+    .then(auction => {
+      cb(null, auction);
+    })
+    .catch(err => {
+      cb(err, null);
+    });
+}
+
 module.exports.createAuction = (options, cb) => {
   return models.Location
     .where({ city: options.city, state: options.state })

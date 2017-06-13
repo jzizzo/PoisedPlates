@@ -16,7 +16,7 @@ import { GridList, GridTile } from 'material-ui/GridList';
 class BrowseAuctions extends Component {
 
   componentDidMount() {
-    this.props.fetchAuctions();
+    this.props.fetchAuctions(this.props.showing);
   }
 
   renderAuctions() {
@@ -68,8 +68,11 @@ class BrowseAuctions extends Component {
   }
 }
 
-function mapStateToProps(state) {
-  return { auctions: state.auctions };
+function mapStateToProps({ auctions, categories }) {
+  return {
+    auctions: auctions,
+    showing: categories.showing
+  };
 }
 
 export { BrowseAuctions };

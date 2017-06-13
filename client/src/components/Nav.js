@@ -2,6 +2,10 @@ import React, { Component } from 'react';
 
 /* * Utils * */
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+/* * Actions * */
+import { fetchCategories, changeCategory, fetchAuctions } from '../actions';
 
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -60,7 +64,16 @@ const styles = {
   }
 };
 
-export default class Nav extends Component {
+class Nav extends Component {
+  componentDidMount() {
+    this.props.fetchCategories()
+  }
+
+  handleChange(e, value) {
+    this.props.changeCategory(value);
+    this.props.fetchAuctions(value);
+  }
+
   render() {
     return (
       <div>
@@ -74,15 +87,14 @@ export default class Nav extends Component {
                     <ContentFilter color={grey50}/>
                   </IconButton>
                 }
-                onChange={()=>{}}
-                value={1}
+                onChange={this.handleChange.bind(this)}
+                value={this.props.showing}
+                menuStyle={{maxHeight: 300}}
               >
-                <MenuItem value="1" primaryText="Blu-ray" />
-                <MenuItem value="2" primaryText="Cassette" />
-                <MenuItem value="3" primaryText="CD" />
-                <MenuItem value="4" primaryText="DVD Audio" />
-                <MenuItem value="5" primaryText="Hybrid SACD" />
-                <MenuItem value="6" primaryText="Vinyl" />
+                <MenuItem key="all" value="all" primaryText="All" />
+                {this.props.categories.map(category => (
+                  <MenuItem key={category.id} value={category.id} primaryText={category.name} />
+                ))}
               </IconMenu>
             }
             iconElementRight={<LoggedIn />}
@@ -103,3 +115,12 @@ export default class Nav extends Component {
     );
   }
 }
+
+const mapStateToProps = ({ categories }) => {
+  return {
+    categories: categories.categories,
+    showing: categories.showing
+  };
+};
+
+export default connect(mapStateToProps, { fetchCategories, changeCategory, fetchAuctions })(Nav);
