@@ -3,24 +3,37 @@ import { connect } from 'react-redux';
 
 
 /* * Utils * */
-import SearchBar from 'material-ui-search-bar';
+import { AutoComplete, Paper } from 'material-ui';
 
 /* * Actions * */
 import { queryES } from '../actions';
 
+class Search extends Component {
+    constructor(props) {
+    super(props);
+    this.onChange = this.onChange.bind(this);
+    this.state = {
+      dataSource : [],
+      inputValue : ''
+    }
+  }
 
-export default class Search extends Component {
+    onChange(inputValue) {
+  }
+
+
 
   render() {
     return (
-      <SearchBar
-        onChange={ () => console.log('onChange') }
-        onRequestSearch={ () => console.log('onRequestSearch') }
-        style={ {
-          margin: '0 auto',
-          maxWidth: 800
-        } }
-      />
+      <Paper style={ { textAlign: 'center' } } zDepth={1} rounded={false} >
+        <AutoComplete
+          dataSource={this.state.dataSource}
+          onChange={() => console.log('change')}
+          placeholder="Search"
+        />
+      </Paper>
     )
   }
 }
+
+export default connect(null, { queryES })(Search);
