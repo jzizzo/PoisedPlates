@@ -215,6 +215,11 @@ module.exports.getAuctionsByProfileId = ({profileId}, cb) => {
     .where({ profile_id: profileId })
     .fetchAll({
       columns: ['id', 'location_id', 'end_time', 'title'],
+      withRelated: [{
+        'bids': (qb) => {
+          qb.select('auction_id');
+        }
+      }]
     })
     .then(auction => {
       console.log('>>here', auction)

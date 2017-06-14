@@ -1,6 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import Countdown from 'react-count-down'
 
+/* * Utils * */
+import { Link } from 'react-router-dom';
+
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import {Card, CardActions, CardHeader, CardMedia, CardTitle, CardText} from 'material-ui/Card';
@@ -65,7 +68,6 @@ class AuctionStatus extends Component {
   <Table>
     <TableHeader>
       <TableRow>
-        <TableHeaderColumn>AuctionbidID</TableHeaderColumn>
         <TableHeaderColumn>Auction Title</TableHeaderColumn>
         <TableHeaderColumn>Bid Ends</TableHeaderColumn>
         <TableHeaderColumn>Current Bid</TableHeaderColumn>
@@ -76,16 +78,15 @@ class AuctionStatus extends Component {
       {(this.props.data) && this.props.data.map( (row, index) => (
         <TableRow key={index}>
           <TableRowColumn >
-            {row.id ? row.title : row.auction.id}
-          </TableRowColumn>
-          <TableRowColumn >
-            {row.title ? row.title : row.auction.title}
+            {row.title ? 
+              <Link to ={`/auction/${row.id}`}> {row.title} </Link> : 
+              <Link to ={`/auction/${row.auction.id}`}> {row.auction.title} </Link>}
           </TableRowColumn>
           <TableRowColumn >
            {row.end_time ? this.time(row.end_time) : this.time(row.auction.end_time)}
           </TableRowColumn>
           <TableRowColumn >
-           {row.bid ? row.bid : ""}
+           {row.bid ? '$'+row.bid : row.bids.length > 0 ? "Bids Recieved" : "Bids Pending"}
           </TableRowColumn>
       </TableRow>
       ))}

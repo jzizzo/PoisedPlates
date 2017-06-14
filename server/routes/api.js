@@ -14,7 +14,6 @@ router.route('/profile/bids')
     let options = {
       profileId: req.session.passport.user
     };
-    console.log('server/app/options',options)
     BidsController.getBidsByProfileId(options, (err, postedBids) => {
       if (err) {
         console.log(`Couldn't get the bids for Profile id: ${req.session.passport.user} `, err);
@@ -28,7 +27,6 @@ router.route('/profile/auctions')
     let options = {
       profileId: req.session.passport.user
     };
-    console.log('server/app/options',options)
     AuctionsController.getAuctionsByProfileId(options, (err, postedBids) => {
       if (err) {
         console.log(`Couldn't get the post for Profile id: ${req.session.pasport.user} `, err);

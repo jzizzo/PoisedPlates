@@ -5,9 +5,6 @@ import BidModal from './BidModal';
 /* * Actions * */
 import { fetchAuctionByProfileId, fetchBidsByProfileId } from '../actions';
 
-/* * Utils * */
-import _ from 'lodash';
-import { Link } from 'react-router-dom';
 
 /* * Styles * */
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
@@ -20,13 +17,13 @@ import AuctionStatus from '../components/AuctionStatus'
 
 class MyAccount extends Component { //rip from AuctionPage
   componentDidMount() {
-    this.props.fetchAuctionByProfileId()
-    this.props.fetchBidsByProfileId()
+    this.props.fetchAuctionByProfileId()  // user's post
+    this.props.fetchBidsByProfileId()     // user's bids
   }
 
   render() {
     const { auction } = this.props;
-    // console.log('props>>', this.props)
+    console.log('props>>', this.props)
     if (!auction) {
       // return <div>Loading...</div>;
     }
