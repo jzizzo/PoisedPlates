@@ -6,7 +6,9 @@ export default function(state = {}, action) {
     case FETCH_AUCTION:
       return { ...state, [action.payload.data.id]: action.payload.data };
     case FETCH_AUCTIONS:
-      return _.mapKeys(action.payload.data, 'id');
+      const auctions = _.mapKeys(action.payload.data, 'id');
+      _.map(auctions, auction => auction.url = auction.images[0].url)
+      return auctions;
     default:
       return state;
   }
