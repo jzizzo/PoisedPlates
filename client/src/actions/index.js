@@ -93,7 +93,7 @@ export const selectImage = (display, file) => ({
 export const deselectImage = () => ({ type: DESELECT_IMAGE });
 
 export const fetchCategories = () => {
-  const request = axios.get('api/categories');
+  const request = axios.get('/api/categories');
 
   return {
     type: FETCH_CATEGORIES,
