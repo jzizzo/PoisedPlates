@@ -3,10 +3,12 @@ const express = require('express');
 const path = require('path');
 const middleware = require('./middleware');
 const routes = require('./routes/index');
-
 const config = require('config');
 console.log('NODE_ENV: ' + config.util.getEnv('NODE_ENV'));
 console.log('config: ', config);
+
+
+const AuctionsController = require('./controllers').Auctions;
 
 const app = express();
 
@@ -30,6 +32,9 @@ app.use('/', routes.auth);
 app.use('/api', routes.api);
 app.use('/api/profiles', routes.profiles);
 app.use('/s3', routes.s3);
+
+
+
 
 app.get('/*', (req, res) => {
   res.render('index.ejs', {user: req.user ? req.user : null});
