@@ -13,12 +13,13 @@ class Search extends Component {
     super(props);
     this.state = {
       dataSource : [],
-      inputValue : ''
+      term : ''
     }
     this.onChange = this.onChange.bind(this);
   }
 
-    onChange(inputValue) {
+    onChange(event) {
+      this.setState( { term: event.target.value })
   }
 
 
@@ -28,8 +29,9 @@ class Search extends Component {
       <Paper style={ { textAlign: 'center' } } zDepth={1} rounded={false} >
         <AutoComplete
           dataSource={this.state.dataSource}
-          onChange={() => console.log('change')}
+          onUpdateInput={() => this.onChange(event)}
           hintText="Search"
+          value={this.state.term}
         />
       </Paper>
     )
