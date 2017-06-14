@@ -29,8 +29,8 @@ const LoggedIn = () => (
     iconButtonElement={
       <IconButton><MoreVertIcon color={grey50}/></IconButton>
     }
+    anchorOrigin={{horizontal: 'right', vertical: 'bottom'}}
     targetOrigin={{horizontal: 'right', vertical: 'top'}}
-    anchorOrigin={{horizontal: 'right', vertical: 'top'}}
   >
     <Link to="/myaccount" style={styles.links} >
       <MenuItem primaryText="My Account" />
@@ -89,11 +89,23 @@ class Nav extends Component {
                 }
                 onChange={this.handleChange.bind(this)}
                 value={this.props.showing}
+                anchorOrigin={{horizontal: 'left', vertical: 'bottom'}}
+                targetOrigin={{horizontal: 'left', vertical: 'top'}}
                 menuStyle={{maxHeight: 300}}
               >
-                <MenuItem key="all" value="all" primaryText="All" />
+                <MenuItem
+                  key="all"
+                  value="all"
+                  primaryText="All"
+                  containerElement={<Link to="/" style={styles.links} />}
+                />
                 {this.props.categories.map(category => (
-                  <MenuItem key={category.id} value={category.id} primaryText={category.name} />
+                  <MenuItem
+                    key={category.id}
+                    value={category.id}
+                    primaryText={category.name}
+                    containerElement={<Link to="/" style={styles.links} />}
+                  />
                 ))}
               </IconMenu>
             }
