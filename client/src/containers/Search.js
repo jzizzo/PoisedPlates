@@ -11,11 +11,11 @@ import { queryES } from '../actions';
 class Search extends Component {
     constructor(props) {
     super(props);
-    this.onChange = this.onChange.bind(this);
     this.state = {
       dataSource : [],
       inputValue : ''
     }
+    this.onChange = this.onChange.bind(this);
   }
 
     onChange(inputValue) {
@@ -29,7 +29,7 @@ class Search extends Component {
         <AutoComplete
           dataSource={this.state.dataSource}
           onChange={() => console.log('change')}
-          placeholder="Search"
+          hintText="Search"
         />
       </Paper>
     )
