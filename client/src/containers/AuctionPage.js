@@ -38,7 +38,7 @@ class AuctionPage extends Component {
             <img src={auction.images[0].url} />
           </CardMedia>
 
-          <CardTitle title={auction.title} subtitle={`${auction.location.city}, ${auction.location.state}`} />
+          <CardTitle title={auction.title} subtitle={`hi`} />
 
           <CardActions>
             <RaisedButton label="bid" secondary={true} onClick={this.props.toggleModal}/>

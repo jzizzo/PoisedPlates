@@ -30,18 +30,17 @@ class BrowseAuctions extends Component {
         width: '30rem'
       }
     }
-    console.log('auctions:', this.props.auctions)
     return _.map(this.props.auctions, auction => {
-      console.log('auction.auction_id is:', auction.auction_id)
+      console.log('auction', auction)
       return (
-        <div key={auction.auction_id} style={styles.grow}>
-          <Link to={`/auction/${auction.auction_id}`}>
+        <div key={auction.id} style={styles.grow}>
+          <Link to={`/auction/${auction.id}`}>
             <MuiThemeProvider>
               <GridTile
-                key={auction.auction_id}
+                key={auction.id}
                 title={auction.title}
               >
-                <img src={auction.url} style={styles.image} />
+                <img src={auction.images[0].url} style={styles.image} />
               </GridTile>
             </MuiThemeProvider>
           </Link>
