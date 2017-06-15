@@ -1,6 +1,10 @@
 import { SELECT_IMAGE, DESELECT_IMAGE } from '../actions/index';
 
-export default (state = {}, action) => {
+const initialState = {
+  displayImage: '../assets/placeholder.png'
+}
+
+export default (state = initialState, action) => {
   switch (action.type) {
     case SELECT_IMAGE:
       return Object.assign({}, state, {

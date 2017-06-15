@@ -12,6 +12,7 @@ import { postAuction, selectImage, deselectImage } from '../actions';
 /* * Styles * */
 import { Card, CardMedia } from 'material-ui/Card';
 import RaisedButton from 'material-ui/RaisedButton';
+import ImagePhotoCamera from 'material-ui/svg-icons/image/photo-camera';
 import MenuItem from 'material-ui/MenuItem';
 import { AutoComplete as MUIAutoComplete } from 'material-ui';
 import {
@@ -60,12 +61,6 @@ const required = value => (value == null ? 'Required' : undefined);
 
 
 class AuctionForm extends Component {
-  componentDidMount() {
-    this.refs.name // the Field
-      // .getRenderedComponent() // on Field, returns ReduxFormMaterialUITextField
-      // .getRenderedComponent() // on ReduxFormMaterialUITextField, returns TextField
-      // .focus(); // on TextField
-  }
 
   handleImages(e) {
     let image = e.target.files[0];
@@ -168,6 +163,19 @@ class AuctionForm extends Component {
               <input
                 type="file"
                 accept="image/*"
+                style={styles.imageInput}
+                onChange={this.handleImages.bind(this)}
+              />
+            </RaisedButton>
+            <RaisedButton
+              icon={<ImagePhotoCamera />}
+              labelPosition="before"
+              style={styles.button}
+            >
+              <input
+                type="file"
+                accept="image/*"
+                capture="camera"
                 style={styles.imageInput}
                 onChange={this.handleImages.bind(this)}
               />

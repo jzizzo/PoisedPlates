@@ -27,8 +27,9 @@ const determineWinningBidder = (auction) => {
 };
 
 module.exports.getAllAuctions = (cb) => {
-  return models.Auction.collection()
-    .fetch({
+  return models.Auction
+    .where({ ended: false })
+    .fetchAll({
       columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
       withRelated: [{
         'images': (qb) => {
@@ -77,7 +78,7 @@ module.exports.getAuctionById = (auctionId, cb) => {
 
 module.exports.getAuctionsByCategory = (categoryId, cb) => {
   return models.Auction
-    .where({ category_id: categoryId })
+    .where({ category_id: categoryId, ended: false })
     .fetchAll({
       columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
       withRelated: [{
