@@ -53,7 +53,7 @@ module.exports.getAllAuctions = (cb) => {
 module.exports.getAuctionById = (auctionId, cb) => {
   return models.Auction
     .where({ id: auctionId })
-    .fetch({  
+    .fetch({
       columns: ['id', 'category_id', 'location_id', 'end_time', 'title', 'description'],
       withRelated: [{
         'images': (qb) => {
