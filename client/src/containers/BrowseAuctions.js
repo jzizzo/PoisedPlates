@@ -31,7 +31,6 @@ class BrowseAuctions extends Component {
       }
     }
     return _.map(this.props.auctions, auction => {
-      console.log('auction', auction)
       return (
         <div key={auction.id} style={styles.grow}>
           <Link to={`/auction/${auction.id}`}>

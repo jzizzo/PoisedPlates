@@ -7,7 +7,6 @@ export default function(state = {}, action) {
       let queryResults = {};
       action.payload.data.hits.hits.map( auction => {
         const {_source} = auction;
-        console.log('what up?', _source)
         queryResults[_source.auction_id] = {
           id: _source.auction_id,
           category: { id: _source.category_id, name: _source.name },
