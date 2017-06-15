@@ -18,7 +18,7 @@ exports.up = function(knex, Promise) {
       table.integer('location_id').references('locations.id').onDelete('CASCADE');
       table.timestamp('end_time').notNullable();
       table.string('title', 100).nullable();
-      table.string('description', 200).nullable();
+      table.string('description', 300).nullable();
       table.timestamp('created_at').notNullable().defaultTo(date);
       table.timestamp('updated_at').notNullable().defaultTo(date);
     }),
