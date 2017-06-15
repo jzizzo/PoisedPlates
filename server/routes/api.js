@@ -4,7 +4,37 @@ const router = express.Router();
 const AuctionsController = require('../controllers').Auctions;
 const BidsController = require('../controllers').Bids;
 const CategoriesController = require('../controllers').Categories;
+const ProfiliesController = require('../controllers').Profiles;
 const middleware = require('../middleware');
+
+// routx`
+//test
+router.route('/profile/bids')
+  .get(middleware.auth.verify, (req, res) => {
+    let options = {
+      profileId: req.session.passport.user
+    };
+    BidsController.getBidsByProfileId(options, (err, postedBids) => {
+      if (err) {
+        console.log(`Couldn't get the bids for Profile id: ${req.session.passport.user} `, err);
+      }
+      res.send(postedBids);
+    });
+  });
+
+router.route('/profile/auctions')
+  .get(middleware.auth.verify, (req, res) => {
+    let options = {
+      profileId: req.session.passport.user
+    };
+    AuctionsController.getAuctionsByProfileId(options, (err, postedBids) => {
+      if (err) {
+        console.log(`Couldn't get the post for Profile id: ${req.session.pasport.user} `, err);
+      }
+      console.log('api/my/post>', postedBids)
+      res.send(postedBids);
+    });
+  });
 
 router.route('/auctions')
   .get((req, res) => {

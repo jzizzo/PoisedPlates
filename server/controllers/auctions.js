@@ -209,3 +209,38 @@ module.exports.retrieveAndUpdateEndingAuctions = (currentTime, cb) => {
       cb(err, null);
     });
 };
+
+module.exports.getAuctionsByProfileId = ({profileId}, cb) => {
+  return models.Auction
+    .where({ profile_id: profileId })
+    .fetchAll({
+      columns: ['id', 'location_id', 'end_time', 'title'],
+      withRelated: [{
+        'bids': (qb) => {
+          qb.select('auction_id');
+        }
+      }]
+    })
+    .then(auction => {
+      console.log('>>here', auction)
+      cb(null, auction);
+    })
+    .catch(err => {
+      cb(err, null);
+    });
+};
+module.exports.getAuctionsById = ({id}, cb) => {
+  return models.Auction
+    .where({ id: id })
+    .fetchAll({
+      columns: ['id', 'location_id', 'end_time', 'title'],
+    })
+    .then(auction => {
+      console.log('>>here', auction)
+      cb(null, auction);
+    })
+    .catch(err => {
+      cb(err, null);
+    });
+};
+

@@ -31,7 +31,7 @@ class AuctionPage extends Component {
           <CardHeader
             title={auction.title}
             // subtitle="<Rating?>"
-            avatar="https://scontent.cdninstagram.com/t51.2885-15/e35/15258783_1219743038096510_7805315801564577792_n.jpg"
+            /*avatar="https://scontent.cdninstagram.com/t51.2885-15/e35/15258783_1219743038096510_7805315801564577792_n.jpg"*/
           />
 
           <CardMedia overlay={<CardTitle subtitle={`Ends: ${auction.end_time}`} />} >

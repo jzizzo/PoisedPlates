@@ -10,6 +10,9 @@ export const SELECT_IMAGE = 'SELECT_IMAGE';
 export const DESELECT_IMAGE = 'DESELECT_IMAGE';
 export const FETCH_CATEGORIES = 'FETCH_CATEGORIES';
 export const CHANGE_CATEGORY = 'CHANGE_CATEGORY';
+export const FETCH_PROFILE_AUCTIONS = 'FETCH_PROFILE_AUCTIONS';
+export const FETCH_PROFILE_BIDS = 'FETCH_PROFILE_BIDS'
+
 
 export function fetchAuctions(categoryId) {
   const request = categoryId === 'all' ?
@@ -40,6 +43,23 @@ export function fetchAuction(id) {
     payload: request
   };
 }
+
+export function fetchAuctionByProfileId() {
+  const request =  axios.get(`/api/profile/auctions`);
+  return {
+      type: FETCH_PROFILE_AUCTIONS,
+      payload: request
+    };
+};
+
+
+export function fetchBidsByProfileId() {
+  const request = axios.get('/api/profile/bids');
+  return {
+    type: FETCH_PROFILE_BIDS,
+    payload: request
+  };
+};
 
 export const toggleModal = () => ({ type: TOGGLE_MODAL });
 
