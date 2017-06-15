@@ -5,7 +5,6 @@ const middleware = require('./middleware');
 const routes = require('./routes/index');
 const config = require('config');
 
-
 const app = express();
 
 // const auctionWorker = require('../workers/auctions/endingAuctions.js');
