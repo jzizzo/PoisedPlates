@@ -28,7 +28,7 @@ class Search extends Component {
 
 
   render() {
-    {console.log(this.props.search)}
+    {console.log('inside Search', this.props.search)}
     return (
       <Paper style={ { textAlign: 'center' } } zDepth={1} rounded={false} >
         <AutoComplete

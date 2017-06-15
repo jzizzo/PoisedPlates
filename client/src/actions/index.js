@@ -104,7 +104,6 @@ export function fetchBidsByProfileId() {
 // Search Actions:
 
 export const queryES = (query) => {
-  console.log('query is:', query);
   const request = axios.get(`http://search-testdomain-mqjsglxcm7vrowa4obce2iyque.us-west-1.es.amazonaws.com/_search?q=${query}`);
 
   return {
