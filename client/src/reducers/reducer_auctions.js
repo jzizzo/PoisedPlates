@@ -5,17 +5,16 @@ export default function(state = {}, action) {
   switch (action.type) {
     case QUERY_ES:
       let queryResults = {};
-      action.payload.data.hits.hits.map( elem => {
-        const auction = elem._source;
-        console.log('auction',auction)
-        queryResults[auction.auction_id] = {
-          id: auction.auction_id,
-          category: { id: auction.category_id, name: auction.name },
-          categpry_id: auction.category_id,
-          description: auction.description,
-          end_time: auction.end_time,
-          images: [ { "auction_id": auction.auction_id, url: auction.url} ],
-          title: auction.title
+      action.payload.data.hits.hits.map( auction => {
+        const {_source} = auction;
+        queryResults[_source.auction_id] = {
+          id: _source.auction_id,
+          category: { id: _source.category_id, name: _source.name },
+          categpry_id: _source.category_id,
+          description: _source.description,
+          end_time: _source.end_time,
+          images: [ { "auction_id": _source.auction_id, url: _source.url} ],
+          title: _source.title
         }
       })
       return queryResults;
